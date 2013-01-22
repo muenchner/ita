@@ -17,6 +17,7 @@ def main():
 
   #call ita
   start = time.time()
+  print 'starting iterative travel assignment'
   it = ita.ITA(G,demand)
   newG = it.assign()
   print 'time to assign: ', time.time()-start
@@ -25,7 +26,8 @@ def main():
       for key,eattr in keydict.items():
         if eattr['flow']>0:
           print (n, nbr, eattr['flow'])
-
+  print 'travel time: ', util.find_travel_time(newG)
+  print 'vmt: ', util.find_vmt(G)
   newG = util.clean_up_graph(newG)
 
 if __name__ == '__main__':
