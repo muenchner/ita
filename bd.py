@@ -10,8 +10,8 @@ def build_demand(trip_filename, centroid_filename):
       print row
       tokens = row.split(',')
       print tokens
-      sd_dict[int(tokens[0])] =  int(tokens[2])
-      demand_dict[int(tokens[2])] = {}
+      sd_dict[str(int(tokens[0]))] =  str(int(tokens[2]))
+      demand_dict[str(int(tokens[2]))] = {}
 
   with open(trip_filename,'rb') as f:
     read_data = f.read().splitlines()
@@ -19,7 +19,7 @@ def build_demand(trip_filename, centroid_filename):
       print row
       tokens = row.split(',')
       print tokens
-      demand_dict[sd_dict[int(tokens[0])]][sd_dict[int(tokens[1])]] = int(tokens[12])
+      demand_dict[str(sd_dict[str(int(tokens[0]))])][str(sd_dict[str(int(tokens[1]))])] = int(tokens[12])
   return demand_dict
 
 
