@@ -1,6 +1,7 @@
 #Author: Mahalia Miller
 #Date: Jan. 21, 2013
 
+import ita
 
 import networkx as nx
 def main():
@@ -12,7 +13,7 @@ def main():
   demand['7493']['7838'] = 20000
 
   #call ita
-  it = ITA(G,demand)
+  it = ita.ITA(G,demand)
   newG = it.assign()
   for n,nbrsdict in newG.adjacency_iter():
     for nbr,keydict in nbrsdict.items():
