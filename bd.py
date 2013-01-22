@@ -17,7 +17,7 @@ def build_demand(trip_filename, centroid_filename):
       tokens = row.split(',')
       print tokens
       demand_dict[str(sd_dict[str(int(tokens[0]))])][str(sd_dict[str(int(tokens[1]))])] = int(tokens[2]) + int(tokens[3])  #int(tokens[12])
-      if (int(tokens[2]) + int(tokens[3]) + int(tokens[4]) + int(tokens[5]) + int(tokens[6])) > int(tokens[12]):
+      if (int(tokens[2]) + int(tokens[3])) > int(tokens[12]):
         print 'what is going on?'
   return demand_dict
 
