@@ -6,7 +6,7 @@ import ita
 import networkx as nx
 def main():
   #get graph info
-  G = nx.read_gpickle("graphMTC_noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.read_gpickle("graphMTC_centroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = {}
   demand['7493'] = {}
