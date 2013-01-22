@@ -35,15 +35,15 @@ class ITA:
               best_t_a = float('inf')
               for multi_edge in self.G[u][v].keys():
                 new_t_a = self.G[u][v][multi_edge]['t_a']
-                if new_t_a < best_t_a:
+                if (new_t_a < best_t_a) and (self.G[u][v][multi_edge]['capacity']>0):
                   best = multi_edge
                   best_t_a = new_t_a
             else:
               best = 0
-
-            self.G[u][v][best]['flow'] += od_flow
-            t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
-            self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow)
+            if (self.G[u][v][best]['capacity']>0):
+              self.G[u][v][best]['flow'] += od_flow
+              t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
+              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow)
     return self.G
 
       
