@@ -27,7 +27,7 @@ def main():
         if eattr['flow']>0:
           print (n, nbr, eattr['flow'])
   print 'travel time: ', util.find_travel_time(newG)
-  print 'vmt: ', util.find_vmt(G)
+  print 'vmt: ', util.find_vmt(G) #in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm)
   newG = util.clean_up_graph(newG)
 
 if __name__ == '__main__':
