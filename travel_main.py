@@ -1,2 +1,24 @@
 #Author: Mahalia Miller
 #Date: Jan. 21, 2013
+
+
+
+def main():
+  #get graph info
+  G = nx.read_gpickle("graphMTC_CentroidsLength5.gpickle") 
+  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
+  demand = {}
+  demand['7493'] = {}
+  demand['7493']['7838'] = 20000
+
+  #call ita
+  it = ITA(G,demand)
+  newG = it.assign()
+  for n,nbrsdict in newG.adjacency_iter():
+    for nbr,keydict in nbrsdict.items():
+      for key,eattr in keydict.items():
+        if eattr['flow']>0:
+          print (n, nbr, eattr['flow'])
+
+if __name__ == '__main__':
+  main()
