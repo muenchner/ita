@@ -3,16 +3,18 @@
 
 def build_demand(trip_filename, centroid_filename):
   demand_dict = {}
+  sd_dict = {}
   with open(centroid_filename,'rb') as f:
     read_data = f.read().splitlines()
-    for row in read_data[3:]:
+    for row in read_data[1:]:
       print row
       tokens = row.split(',')
       print tokens
+      sd[int(tokens[0])] =  int(tokens[2])
 
   with open(trip_filename,'rb') as f:
     read_data = f.read().splitlines()
-    for row in read_data[1:]:
+    for row in read_data[3:]:
       print row
       tokens = row.split(',')
       print tokens
