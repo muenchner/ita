@@ -15,7 +15,7 @@ def build_demand(trip_filename, centroid_filename):
 
   with open(trip_filename,'rb') as f:
     read_data = f.read().splitlines()
-    for row in read_data[3:]:
+    for row in read_data[4:]:
       print row
       tokens = row.split(',')
       print tokens
