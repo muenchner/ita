@@ -22,8 +22,6 @@ class ITA:
         for destination in self.demand[origin].keys():
           od_flow = iteration_vals[i] * self.demand[origin][destination]
           #get path
-          print 'destination: ', destination
-          print 'paths dict: ', paths_dict
           path_list = paths_dict[destination] #list of nodes
           
           #increment flow on the paths and update t_a
@@ -59,8 +57,8 @@ def main():
   G = nx.MultiDiGraph()
   G.add_node(1)
   G.add_node(2)
-  G.add_edge(1,2,capacity=1000,t_0=15,t_a=15,flow=0)
-  G.add_edge(1,2,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge(1,2,capacity_0=1000,capacity=1000,t_0=15,t_a=15,flow=0, distance=10)
+  G.add_edge(1,2,capacity_0=3000,capacity=3000,t_0=20,t_a=20,flow=0, distance=10)
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = {}
   demand[1] = {}
@@ -73,8 +71,62 @@ def main():
   for n,nbrsdict in newG.adjacency_iter():
     for nbr,keydict in nbrsdict.items():
       for key,eattr in keydict.items():
-        print 'key: ', key
-        print 'attr: ', eattr
+        print (n, nbr, eattr['flow'])
+  print 'should have flow of 3200 and 4800'
+
+  #try another one
+  G = nx.MultiDiGraph()
+  G.add_node('A')
+  G.add_node('B')
+  G.add_node('C')
+  G.add_node('D')
+  G.add_node('E')
+#first type
+  G.add_edge('A','B',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('A','D',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('D','F',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('E','C',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('B','A',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('D','A',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('F','D',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+  G.add_edge('C','E',capacity_0=5000,capacity=1000,t_0=15,t_a=15,flow=0)
+#second type
+  G.add_edge('B','D',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('D','B',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('A','E',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('E','A',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('E','F',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('F','E',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('F','C',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  G.add_edge('C','F',capacity_0=5000,capacity=3000,t_0=20,t_a=20,flow=0)
+  
+  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
+  demand = {}
+  demand['A'] = {}
+  demand['C'] = {}
+  demand['B'] = {}
+  demand['A']['B'] =4000
+  demand['A']['C'] =5000
+  demand['C']['B'] =2000
+  demand['B']['A'] =1000
+
+
+  #call ita
+  it = ITA(G,demand)
+  newG = it.assign()
+  print newG
+  for n,nbrsdict in newG.adjacency_iter():
+    for nbr,keydict in nbrsdict.items():
+      for key,eattr in keydict.items():
+        print (n, nbr, eattr['flow'])
+  print 'and now clean up the graph'
+  newG = util.clean_up_graph(newG)
+  for n,nbrsdict in newG.adjacency_iter():
+    for nbr,keydict in nbrsdict.items():
+      for key,eattr in keydict.items():
+        print (n, nbr, eattr['flow'])
+        print (n, nbr, eattr['capacity'])
+
 
 if __name__ == '__main__':
   main()
