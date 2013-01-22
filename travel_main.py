@@ -2,7 +2,7 @@
 #Date: Jan. 21, 2013
 
 
-
+import networkx as nx
 def main():
   #get graph info
   G = nx.read_gpickle("graphMTC_CentroidsLength5.gpickle") 
