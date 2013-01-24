@@ -44,9 +44,14 @@ def run_iteration(G, ground_motion, demand):
   return (travel_time, vmt)
 
 def pick_scenarios(lnsas, weights):
-  #TODO
-  return [1, 3]
-
+  scenarios = []
+  index = 0
+  for w in weights:
+    if weights[w]> 0.00001: #10^-5
+      scenarios.append(index)
+    index += 1
+  print 'number of chosen scenarios: ', len(scenarios)
+  return scenarios
 def damage_network(G, scenario):
   for site in range(len(scenario)):
     lnSa = scenario[site]
