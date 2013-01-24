@@ -16,6 +16,10 @@ with open( 'input/MedBridgeCap.txt','rb') as f:
 median_bridge_capacity = [log(float(thing)) for thing in median_bridge_capacity] #convert to log
 print 'ok, have median bridge capacities'
 
+with open('input/20130123_mtc_bridgerow_u_v_dict.pkl','rb') as filename:
+  row_u_v_dict = pickle.load(filename) #key=bridge row number (1-1557), value=list of pairs of start and end node ID
+print 'ok, have relations between bridges and the network'
+
 def run_iteration(G, ground_motion, demand):
   #change edge properties
   newG = damage_network(G, ground_motion)
@@ -46,10 +50,11 @@ def damage_network(G, scenario):
     lnSa = scenario[site]
     lnSa_cap = normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
     if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
-      print 'bridge out'
+      #print 'bridge out'
       #determine (u,v) of the link(s) carried by or affected by this bridge
-      #TODO
-      affected_edges = [('5633','12707'), ('5632', '5625')]
+      affected_edges = row_u_v_dict[site + 1]
+      print 'affected edges: ', affected_edges
+      #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
         for multi_edge in G[u][v].keys():
           G[u][v][multi_edge]['t_a'] = float('inf')
