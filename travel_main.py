@@ -27,20 +27,21 @@ def run_iteration(G, ground_motion, demand):
 
   #call ita
   start = time.time()
-  print 'starting iterative travel assignment'
+#  print 'starting iterative travel assignment'
   it = ita.ITA(G,demand)
   newG = it.assign()
   print 'time to assign: ', time.time()-start
-  for n,nbrsdict in newG.adjacency_iter():
-    for nbr,keydict in nbrsdict.items():
-      for key,eattr in keydict.items():
-        if eattr['flow']>0:
-          print (n, nbr, eattr['flow'])
+#  for n,nbrsdict in newG.adjacency_iter():
+#    for nbr,keydict in nbrsdict.items():
+#      for key,eattr in keydict.items():
+#        if eattr['flow']>0:
+#          print (n, nbr, eattr['flow'])
   travel_time = util.find_travel_time(newG)
-  print 'travel time: ', travel_time
-  print 'vmt: ', util.find_vmt(G) #in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm)
+  vmt = util.find_vmt(G)
+#  print 'travel time: ', travel_time
+#  print 'vmt: ', util.find_vmt(G) #in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm)
   newG = util.clean_up_graph(newG)
-  return travel_time
+  return (travel_time, vmt)
 
 def pick_scenarios(lnsas, weights):
   #TODO
@@ -54,7 +55,7 @@ def damage_network(G, scenario):
       #print 'bridge out'
       #determine (u,v) of the link(s) carried by or affected by this bridge
       affected_edges = row_u_v_dict[site + 1]
-      print 'affected edges: ', affected_edges
+#      print 'affected edges: ', affected_edges
       #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
         for multi_edge in G[str(u)][str(v)].keys():
@@ -80,8 +81,9 @@ def main():
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
-      travel_index_times.append((index, run_iteration(G, scenario, demand)))
-      print 'new travel times: ', travel_index_times
+      (travel_time, vmt) = run_iteration(G, scenario, demand)
+      travel_index_times.append((index, travel_time, vmt))
+#      print 'new travel times: ', travel_index_times
       if index%10 ==0:
         util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_index_times)
     index += 1 #IMPORTANT

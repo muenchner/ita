@@ -60,8 +60,9 @@ def write_2dlist(filename, the_list):
   #writes a list to file
   with open(filename, 'wb') as f:
     for item in the_list:
-      f.write("%s, " % item[0])
-      f.write("%s\n" % item[1])
+      for sub_item in item:
+        f.write("%s, " % sub_item)
+      f.write("\n")
       
 
 if __name__ == '__main__':
