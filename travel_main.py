@@ -48,6 +48,7 @@ def damage_network(G, scenario):
     if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
       print 'bridge out'
       #determine (u,v) of the link(s) carried by or affected by this bridge
+      #TODO
       affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
         for multi_edge in G[u][v].keys():

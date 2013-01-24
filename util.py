@@ -31,7 +31,8 @@ def find_travel_time(G):
   for n,nbrsdict in G.adjacency_iter():
     for nbr,keydict in nbrsdict.items():
       for key,eattr in keydict.items():
-        travel_time += eattr['flow']*eattr['t_a']
+        if eattr['flow'] > 0:
+          travel_time += eattr['flow']*eattr['t_a']
   return travel_time
 
 def find_vmt(G):
