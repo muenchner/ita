@@ -7,13 +7,15 @@ import util
 import time
 
 import networkx as nx
-def main():
-  #get graph info
-  G = nx.read_gpickle("graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
-  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
-  demand = bd.build_demand('BATS2000_34SuperD_TripTableData.csv', 'superdistricts_centroids.csv')
- # demand['7493'] = {}
-#  demand['7493']['7838'] = 20000
+#get bridge information
+with open( '/Users/mahalia/Documents/matlab/Research/Herbst2011/output_data/MedBridgeCap.txt','rb') as f:
+  median_bridge_capacity = f.readlines()
+median_bridge_capacity = [log(float(thing)) for thing in median_bridge_capacity] #convert to log
+print 'ok, have median bridge capacities'
+
+def run_iteration(G, ground_motion, demand):
+  #change edge properties
+  newG = damage_network(G, ground_motion)
 
   #call ita
   start = time.time()
@@ -26,9 +28,42 @@ def main():
       for key,eattr in keydict.items():
         if eattr['flow']>0:
           print (n, nbr, eattr['flow'])
-  print 'travel time: ', util.find_travel_time(newG)
+  travel_time = util.find_travel_time(newG)
+  print 'travel time: ', travel_time
   print 'vmt: ', util.find_vmt(G) #in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm)
   newG = util.clean_up_graph(newG)
+  return travel_time
+
+def pick_scenarios(lnsas, weights):
+  #TODO
+  return [0, 1]
+
+def damage_network(G, ground_motion):
+  return G
+
+def main():
+  #get graph info
+  G = nx.read_gpickle("graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.freeze(G) #prevents edges or nodes to be added or deleted
+  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
+  demand = bd.build_demand('BATS2000_34SuperD_TripTableData.csv', 'superdistricts_centroids.csv')
+  #get earthquake info
+  q = QuakeMaps('20130107_mtc_total_lnsas1.pkl', '20130107_mtc_magnitudes1.pkl', '20130107_mtc_faults1.pkl', '20130107_mtc_weights1.pkl', '20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q.num_sites = len(q.lnsas[0])
+  #determine which scenarios you want to run
+  good_indices = pick_scenarios(q.lnsas, q.weights)
+  
+  travel_times = []
+  index = 0
+  #loop over scenarios
+  for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
+    if index in good_indices:
+      travel_times.append(run_iteration(G, ground_motion, demand))
+      print 'new travel times: ', travel_times
+      if index%10 ==0:
+        util.write_list(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
+
+    index += 1 #IMPORTANT
 
 if __name__ == '__main__':
   main()

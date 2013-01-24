@@ -49,6 +49,13 @@ def compute_delay(travel_time, undamaged_travel_time = None):
   else:
     return 0
 
+def write_list(filename, the_list):
+  #writes a list to file
+  with open(filename, 'r') as f:
+    for item in the_list:
+      f.write("%s\n" % item)
+
+
 if __name__ == '__main__':
   import networkx as nx
   G = nx.MultiDiGraph()
