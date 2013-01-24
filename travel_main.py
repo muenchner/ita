@@ -70,11 +70,11 @@ def main():
     if index in good_indices:
       print 'index: ', index
       travel_index_times.append((index, run_iteration(G, scenario, demand)))
-      print 'new travel times: ', travel_times
+      print 'new travel times: ', travel_index_times
       if index%10 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_index_times)
 
 if __name__ == '__main__':
   main()
