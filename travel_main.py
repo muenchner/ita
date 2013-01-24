@@ -40,7 +40,14 @@ def pick_scenarios(lnsas, weights):
   #TODO
   return [1, 3]
 
-def damage_network(G, ground_motion):
+def damage_network(G, scenario):
+  for site in range(num_sites):
+    lnSa = scenario[site]
+    lnSa_cap = random.normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
+#                print 'lnSa: ', lnSa
+#                print 'lnSa_cap: ',lnSa_cap
+    if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
+      pass
   return G
 
 def main():
@@ -60,7 +67,7 @@ def main():
   #loop over scenarios
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
-      travel_index_times.append((index, run_iteration(G, ground_motion, demand)))
+      travel_index_times.append((index, run_iteration(G, scenario, demand)))
       print 'new travel times: ', travel_times
       if index%10 ==0:
         util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
