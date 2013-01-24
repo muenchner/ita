@@ -58,7 +58,7 @@ def damage_network(G, scenario):
       #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
         for multi_edge in G[u][v].keys():
-          G[u][v][multi_edge]['t_a'] = float('inf')
+          G[str(u)][str(v)][multi_edge]['t_a'] = float('inf')
 #          G[u][v][multi_edge]['capacity'] = 0 
   return G
 
