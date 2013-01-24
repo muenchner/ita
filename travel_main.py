@@ -41,7 +41,7 @@ def pick_scenarios(lnsas, weights):
   return [1, 3]
 
 def damage_network(G, scenario):
-  for site in range(num_sites):
+  for site in range(len(scenario[0])):
     lnSa = scenario[site]
     lnSa_cap = random.normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
 #                print 'lnSa: ', lnSa
@@ -71,7 +71,6 @@ def main():
       print 'new travel times: ', travel_times
       if index%10 ==0:
         util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
-
     index += 1 #IMPORTANT
   util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
 
