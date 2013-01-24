@@ -41,7 +41,7 @@ def pick_scenarios(lnsas, weights):
   return [1, 3]
 
 def damage_network(G, scenario):
-  for site in range(len(scenario[0])):
+  for site in range(len(scenario)):
     lnSa = scenario[site]
     lnSa_cap = random.normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
 #                print 'lnSa: ', lnSa
