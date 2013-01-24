@@ -8,7 +8,7 @@ import time
 
 import networkx as nx
 #get bridge information
-with open( '/Users/mahalia/Documents/matlab/Research/Herbst2011/output_data/MedBridgeCap.txt','rb') as f:
+with open( 'input/MedBridgeCap.txt','rb') as f:
   median_bridge_capacity = f.readlines()
 median_bridge_capacity = [log(float(thing)) for thing in median_bridge_capacity] #convert to log
 print 'ok, have median bridge capacities'
@@ -43,12 +43,12 @@ def damage_network(G, ground_motion):
 
 def main():
   #get graph info
-  G = nx.read_gpickle("graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
   G = nx.freeze(G) #prevents edges or nodes to be added or deleted
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
-  demand = bd.build_demand('BATS2000_34SuperD_TripTableData.csv', 'superdistricts_centroids.csv')
+  demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('20130107_mtc_total_lnsas1.pkl', '20130107_mtc_magnitudes1.pkl', '20130107_mtc_faults1.pkl', '20130107_mtc_weights1.pkl', '20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
   q.num_sites = len(q.lnsas[0])
   #determine which scenarios you want to run
   good_indices = pick_scenarios(q.lnsas, q.weights)
