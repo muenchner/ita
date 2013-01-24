@@ -8,6 +8,7 @@ import time
 from math import log, exp, fabs
 from random import normalvariate
 from groundTruthHazardjwb import QuakeMaps
+import pickle
 
 import networkx as nx
 #get bridge information
