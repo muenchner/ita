@@ -6,6 +6,7 @@ import bd
 import util
 import time
 from math import log, exp, fabs
+from groundTruthHazardjwb import QuakeMaps
 
 import networkx as nx
 #get bridge information
