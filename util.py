@@ -51,13 +51,13 @@ def compute_delay(travel_time, undamaged_travel_time = None):
 
 def write_list(filename, the_list):
   #writes a list to file
-  with open(filename, 'r') as f:
+  with open(filename, 'wb') as f:
     for item in the_list:
       f.write("%s\n" % item)
 
 def write_2dlist(filename, the_list):
   #writes a list to file
-  with open(filename, 'r') as f:
+  with open(filename, 'wb') as f:
     for item in the_list:
       f.write("%s" % item[0])
       f.write("%s\n" % item[1])
