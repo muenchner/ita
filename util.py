@@ -55,6 +55,13 @@ def write_list(filename, the_list):
     for item in the_list:
       f.write("%s\n" % item)
 
+def write_2dlist(filename, the_list):
+  #writes a list to file
+  with open(filename, 'r') as f:
+    for item in the_list:
+      f.write("%s" % item[0])
+      f.write("%s\n" % item[1])
+      
 
 if __name__ == '__main__':
   import networkx as nx

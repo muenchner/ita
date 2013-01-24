@@ -36,7 +36,7 @@ def run_iteration(G, ground_motion, demand):
 
 def pick_scenarios(lnsas, weights):
   #TODO
-  return [0, 1]
+  return [1, 3]
 
 def damage_network(G, ground_motion):
   return G
@@ -53,17 +53,18 @@ def main():
   #determine which scenarios you want to run
   good_indices = pick_scenarios(q.lnsas, q.weights)
   
-  travel_times = []
+  travel_index_times = []
   index = 0
   #loop over scenarios
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
-      travel_times.append(run_iteration(G, ground_motion, demand))
+      travel_index_times.append((index, run_iteration(G, ground_motion, demand)))
       print 'new travel times: ', travel_times
       if index%10 ==0:
-        util.write_list(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
 
     index += 1 #IMPORTANT
+  util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_times)
 
 if __name__ == '__main__':
   main()
