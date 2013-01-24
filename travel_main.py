@@ -5,6 +5,7 @@ import ita
 import bd
 import util
 import time
+from math import log, exp, fabs
 
 import networkx as nx
 #get bridge information
