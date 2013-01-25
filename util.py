@@ -23,7 +23,8 @@ def clean_up_graph(G):
       for key,eattr in keydict.items():
         eattr['flow'] = 0
         eattr['t_a'] = eattr['t_0']
-#        eattr['capacity'] = eattr['capacity_0']
+        eattr['capacity'] = eattr['capacity_0']
+        eattr['distance'] = eattr['distance_0']
   return G
 def find_travel_time(G):
   #G is a networkx graph. returns the cumulative travel time of all drivers.
