@@ -93,13 +93,13 @@ def main():
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
-      (bridges, flow, path) = run_simple_iteration(G, scenario, demand)
-      travel_index_times.append((index, bridges, flow, path))
+      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand)
+      travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path.txt',travel_index_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path.txt',travel_index_times)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
 
 if __name__ == '__main__':
   main()
