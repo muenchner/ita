@@ -52,7 +52,8 @@ def pick_scenarios(lnsas, weights):
       scenarios.append(index)
     index += 1
   print 'number of chosen scenarios: ', len(scenarios)
-  return scenarios
+#  return scenarios
+  return [1, 3]
 def damage_network(G, scenario):
   num_out = 0
   for site in range(len(scenario)):
@@ -91,7 +92,7 @@ def main():
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
-      (bridges, flow, path) = run_iteration(G, scenario, demand)
+      (bridges, flow, path) = run_simple_iteration(G, scenario, demand)
       travel_index_times.append((index, bridges, flow, path))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
