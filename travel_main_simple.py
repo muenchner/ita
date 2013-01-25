@@ -37,10 +37,11 @@ def run_simple_iteration(G, ground_motion, demand):
   #get ave. shortest path
   start = time.time()
   sp_dict = nx.single_source_dijkstra_path_length(newG,'7619',weight='distance')
-  sp = sum(sp_dict.values())
+  sp = sum(sp_dict.values())/float(len(sp_dict.values()))
   sp2 = 0
   for target in demand.keys():
     sp2 += sp_dict[target]
+  sp2 = sp2 / float(len(demand.keys()))
   print 'time to get shortest path: ', time.time() - start
   newG = util.clean_up_graph(newG)
   return (num_out, flow, sp, sp2) 
