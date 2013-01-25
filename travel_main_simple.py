@@ -54,8 +54,8 @@ def pick_scenarios(lnsas, weights):
       scenarios.append(index)
     index += 1
   print 'number of chosen scenarios: ', len(scenarios)
-#  return scenarios
-  return [1, 3]
+  return scenarios
+#  return [1, 3]
 def damage_network(G, scenario):
   num_out = 0
   for site in range(len(scenario)):
