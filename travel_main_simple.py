@@ -26,7 +26,7 @@ def run_simple_iteration(G, ground_motion, demand):
   newG, num_out = damage_network(G, ground_motion) #also returns the number of bridges out
 
   #get max flow
-  start = time.time()
+#  start = time.time()
   #node 5753 is in superdistrict 12, which is santa clara county, and node 3144 is in superdistrict 18, which is alameda county. roughly these are san jose and oakland
   #node 7619 is in superdistrict 1 (7493 is also), which is sf, and node node 3144 is in superdistrict 18, which is alameda county. roughly these are san francisco and oakland
   s = '7619'
@@ -35,14 +35,14 @@ def run_simple_iteration(G, ground_motion, demand):
 #  print 'time to get max flow: ', time.time() - start
   flow = -1 #not supported by multigraph
   #get ave. shortest path
-  start = time.time()
+#  start = time.time()
   sp_dict = nx.single_source_dijkstra_path_length(newG,'7619',weight='distance')
   sp = sum(sp_dict.values())/float(len(sp_dict.values()))
   sp2 = 0
   for target in demand.keys():
     sp2 += sp_dict[target]
   sp2 = sp2 / float(len(demand.keys()))
-  print 'time to get shortest path: ', time.time() - start
+#  print 'time to get shortest path: ', time.time() - start
   newG = util.clean_up_graph(newG)
   return (num_out, flow, sp, sp2) 
 
