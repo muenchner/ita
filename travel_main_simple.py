@@ -40,7 +40,7 @@ def run_simple_iteration(G, ground_motion, demand):
   sp = sum(sp_dict.values())
   sp2 = 0
   for target in demand.keys():
-    sp2 += demand[target]
+    sp2 += sp_dict[target]
   print 'time to get shortest path: ', time.time() - start
   newG = util.clean_up_graph(newG)
   return (num_out, flow, sp, sp2) 
