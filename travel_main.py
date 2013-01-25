@@ -6,7 +6,7 @@ import bd
 import util
 import time
 from math import log, exp, fabs
-from random import normalvariate
+from random import normalvariate, seed
 from groundTruthHazardjwb import QuakeMaps
 import pickle
 
@@ -69,6 +69,7 @@ def damage_network(G, scenario):
   return G
 
 def main():
+  seed(0) #set seed
   #get graph info
   G = nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
   G = nx.freeze(G) #prevents edges or nodes to be added or deleted
@@ -89,7 +90,7 @@ def main():
       (travel_time, vmt) = run_iteration(G, scenario, demand)
       travel_index_times.append((index, travel_time, vmt))
 #      print 'new travel times: ', travel_index_times
-      if index%10 ==0:
+      if index%100 ==0:
         util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_index_times)
     index += 1 #IMPORTANT
   util.write_2dlist(time.strftime("%Y%m%d")+'_travel_time.txt',travel_index_times)
