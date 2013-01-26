@@ -52,7 +52,7 @@ def pick_scenarios(lnsas, weights):
       scenarios.append(index)
       wout.append((index, weights[w]))
     index += 1
-  util.write_2dlist(time.strftime("%Y%m%d")+'_weights.txt',travel_index_times) #save the weights of the chosen scenarios
+  util.write_2dlist(time.strftime("%Y%m%d")+'_weights.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   return scenarios
 def damage_network(G, scenario):
