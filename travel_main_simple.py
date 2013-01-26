@@ -24,8 +24,9 @@ print 'ok, have relations between bridges and the network'
 def run_simple_iteration(G, ground_motion, demand, multi):
   #G is a graph, demand is a dictionary keyed by source and target of demand per weekday. multi is a boolean that is true if it is a multigraph (can have two parallel edges between nodes)
   #change edge properties
-  newG, num_out = damage_network(G, ground_motion, multi) #also returns the number of bridges out
-
+  newG, capacities = damage_network(G, ground_motion, multi) #also returns the number of bridges out
+  num_out = sum(x > 0 for x in capacities)
+  write_list(time.strftime("%Y%m%d")+'_bridges_scen1.txt', the_list)   
   #get max flow
   start = time.time()
   #node 5753 is in superdistrict 12, which is santa clara county, and node 3144 is in superdistrict 18, which is alameda county. roughly these are san jose and oakland
@@ -55,16 +56,17 @@ def pick_scenarios(lnsas, weights, multi=True):
       scenarios.append(index)
     index += 1
   print 'number of chosen scenarios: ', len(scenarios)
-  return scenarios
-#  return [1, 3]
+#  return scenarios
+  return [1]
 def damage_network(G, scenario, multi=True):
-  num_out = 0
+  capacities = [100]*len(scenario)
   for site in range(len(scenario)):
     lnSa = scenario[site]
     lnSa_cap = normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
     if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
       #print 'bridge out'
-      num_out += 1
+     # num_out += 1
+      capacities[site] = 0
       #determine (u,v) of the link(s) carried by or affected by this bridge
       affected_edges = row_u_v_dict[site + 1]
 #      print 'affected edges: ', affected_edges
@@ -79,8 +81,7 @@ def damage_network(G, scenario, multi=True):
           G[str(u)][str(v)]['t_a'] = float('inf')
           G[str(u)][str(v)]['capacity'] = 0 
           G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)]['distance_0']
-          
-  return G, num_out
+  return G, capacities
 
 def main():
   seed(0) #set seed
