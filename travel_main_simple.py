@@ -25,7 +25,7 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   #G is a graph, demand is a dictionary keyed by source and target of demand per weekday. multi is a boolean that is true if it is a multigraph (can have two parallel edges between nodes)
   #change edge properties
   newG, capacities = damage_network(G, ground_motion, multi) #also returns the number of bridges out
-  num_out = sum(x > 0 for x in capacities)
+  num_out = sum(x < 100 for x in capacities)
   util.write_list(time.strftime("%Y%m%d")+'_bridges_scen_1.txt', capacities)   
   #get max flow
   start = time.time()
