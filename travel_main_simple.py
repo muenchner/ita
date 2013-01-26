@@ -26,7 +26,7 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   #change edge properties
   newG, capacities = damage_network(G, ground_motion, multi) #also returns the number of bridges out
   num_out = sum(x > 0 for x in capacities)
-  util.write_list(time.strftime("%Y%m%d")+'_bridges_scen1.txt', capacities)   
+  util.write_list(time.strftime("%Y%m%d")+'_bridges_scen_1.txt', capacities)   
   #get max flow
   start = time.time()
   #node 5753 is in superdistrict 12, which is santa clara county, and node 3144 is in superdistrict 18, which is alameda county. roughly these are san jose and oakland
