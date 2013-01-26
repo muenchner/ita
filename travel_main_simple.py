@@ -78,7 +78,7 @@ def damage_network(G, scenario, multi=True):
         else:
           G[str(u)][str(v)]['t_a'] = float('inf')
           G[str(u)][str(v)]['capacity'] = 0 
-          G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)][multi_edge]['distance_0']
+          G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)]['distance_0']
           
   return G, num_out
 
