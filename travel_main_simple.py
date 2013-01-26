@@ -102,5 +102,33 @@ def main():
     index += 1 #IMPORTANT
   util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
 
+def main2():
+  seed(0) #set seed
+  #get graph info
+  G = nx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.freeze(G) #prevents edges or nodes to be added or deleted
+  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
+  demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
+  #get earthquake info
+  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q.num_sites = len(q.lnsas[0])
+  #determine which scenarios you want to run
+  good_indices = pick_scenarios(q.lnsas, q.weights)
+  
+  travel_index_times = []
+  index = 0
+  #loop over scenarios
+  for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
+    if index in good_indices:
+      print 'index: ', index
+      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand)
+      travel_index_times.append((index, bridges, flow, path, path2))
+#      print 'new travel times: ', travel_index_times
+      if index%100 ==0:
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+    index += 1 #IMPORTANT
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+
+
 if __name__ == '__main__':
-  main()
+  main2()
