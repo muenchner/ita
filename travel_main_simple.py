@@ -27,13 +27,13 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   newG, num_out = damage_network(G, ground_motion, multi) #also returns the number of bridges out
 
   #get max flow
-#  start = time.time()
+  start = time.time()
   #node 5753 is in superdistrict 12, which is santa clara county, and node 3144 is in superdistrict 18, which is alameda county. roughly these are san jose and oakland
   #node 7619 is in superdistrict 1 (7493 is also), which is sf, and node node 3144 is in superdistrict 18, which is alameda county. roughly these are san francisco and oakland
   s = '7619'
   t = '3144'
-#  flow = nx.max_flow(newG, s, t , capacity='capacity')
-#  print 'time to get max flow: ', time.time() - start
+  flow = nx.max_flow(newG, s, t , capacity='capacity')
+  print 'time to get max flow: ', time.time() - start
   flow = -1 #not supported by multigraph
   #get ave. shortest path
 #  start = time.time()
@@ -55,8 +55,8 @@ def pick_scenarios(lnsas, weights, multi=True):
       scenarios.append(index)
     index += 1
   print 'number of chosen scenarios: ', len(scenarios)
-  return scenarios
-#  return [1, 3]
+#  return scenarios
+  return [1, 3]
 def damage_network(G, scenario, multi=True):
   num_out = 0
   for site in range(len(scenario)):
