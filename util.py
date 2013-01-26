@@ -28,9 +28,9 @@ def clean_up_graph(G, multi=True):
           eattr['distance'] = eattr['distance_0']
       else:
         keydict['flow'] = 0
-        keydict['t_a'] = eattr['t_0']
-        keydict['capacity'] = eattr['capacity_0']
-        keydict['distance'] = eattr['distance_0']
+        keydict['t_a'] = keydict['t_0']
+        keydict['capacity'] = keydict['capacity_0']
+        keydict['distance'] = keydict['distance_0']
 
   return G
 def find_travel_time(G):
