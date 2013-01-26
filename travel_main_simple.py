@@ -44,7 +44,7 @@ def run_simple_iteration(G, ground_motion, demand, multi):
     sp2 += sp_dict[target]
   sp2 = sp2 / float(len(demand.keys()))
 #  print 'time to get shortest path: ', time.time() - start
-  newG = util.clean_up_graph(newG)
+  newG = util.clean_up_graph(newG, multi)
   return (num_out, flow, sp, sp2) 
 
 def pick_scenarios(lnsas, weights, multi=True):

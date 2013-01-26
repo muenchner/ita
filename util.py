@@ -16,15 +16,22 @@ class TravelTime:
   
     return self.t_0*(1 + alpha*(flow/float(self.cap_0))**beta)  
 
-def clean_up_graph(G):
+def clean_up_graph(G, multi=True):
   #takes a graph and makes all flows 0 and makes t_a equal to t_0
   for n,nbrsdict in G.adjacency_iter():
     for nbr,keydict in nbrsdict.items():
-      for key,eattr in keydict.items():
-        eattr['flow'] = 0
-        eattr['t_a'] = eattr['t_0']
-        eattr['capacity'] = eattr['capacity_0']
-        eattr['distance'] = eattr['distance_0']
+      if multi == True:
+        for key,eattr in keydict.items():
+          eattr['flow'] = 0
+          eattr['t_a'] = eattr['t_0']
+          eattr['capacity'] = eattr['capacity_0']
+          eattr['distance'] = eattr['distance_0']
+      else:
+        keydict['flow'] = 0
+        keydict['t_a'] = eattr['t_0']
+        keydict['capacity'] = eattr['capacity_0']
+        keydict['distance'] = eattr['distance_0']
+
   return G
 def find_travel_time(G):
   #G is a networkx graph. returns the cumulative travel time of all drivers.
