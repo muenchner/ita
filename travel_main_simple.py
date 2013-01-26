@@ -32,9 +32,9 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   #node 7619 is in superdistrict 1 (7493 is also), which is sf, and node node 3144 is in superdistrict 18, which is alameda county. roughly these are san francisco and oakland
   s = '7619'
   t = '3144'
-  flow = nx.max_flow(newG, s, t , capacity='capacity')
+  flow = nx.max_flow(newG, s, t , capacity='capacity') #not supported by multigraph
   print 'time to get max flow: ', time.time() - start
-  flow = -1 #not supported by multigraph
+#  flow = -1 
   #get ave. shortest path
 #  start = time.time()
   sp_dict = nx.single_source_dijkstra_path_length(newG,'7619',weight='distance')
