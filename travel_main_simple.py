@@ -21,9 +21,10 @@ with open('input/20130123_mtc_bridgerow_u_v_dict.pkl','rb') as filename:
   row_u_v_dict = pickle.load(filename) #key=bridge row number (1-1557), value=list of pairs of start and end node ID
 print 'ok, have relations between bridges and the network'
 
-def run_simple_iteration(G, ground_motion, demand):
+def run_simple_iteration(G, ground_motion, demand, multi):
+  #G is a graph, demand is a dictionary keyed by source and target of demand per weekday. multi is a boolean that is true if it is a multigraph (can have two parallel edges between nodes)
   #change edge properties
-  newG, num_out = damage_network(G, ground_motion) #also returns the number of bridges out
+  newG, num_out = damage_network(G, ground_motion, multi) #also returns the number of bridges out
 
   #get max flow
 #  start = time.time()
@@ -46,7 +47,7 @@ def run_simple_iteration(G, ground_motion, demand):
   newG = util.clean_up_graph(newG)
   return (num_out, flow, sp, sp2) 
 
-def pick_scenarios(lnsas, weights):
+def pick_scenarios(lnsas, weights, multi=True):
   scenarios = []
   index = 0
   for w in weights:
@@ -56,7 +57,7 @@ def pick_scenarios(lnsas, weights):
   print 'number of chosen scenarios: ', len(scenarios)
   return scenarios
 #  return [1, 3]
-def damage_network(G, scenario):
+def damage_network(G, scenario, multi=True):
   num_out = 0
   for site in range(len(scenario)):
     lnSa = scenario[site]
@@ -69,10 +70,16 @@ def damage_network(G, scenario):
 #      print 'affected edges: ', affected_edges
       #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
-        for multi_edge in G[str(u)][str(v)].keys():
-          G[str(u)][str(v)][multi_edge]['t_a'] = float('inf')
-          G[str(u)][str(v)][multi_edge]['capacity'] = 0 
-          G[str(u)][str(v)][multi_edge]['distance'] = 20*G[str(u)][str(v)][multi_edge]['distance_0']           
+        if multi == True:
+          for multi_edge in G[str(u)][str(v)].keys():
+            G[str(u)][str(v)][multi_edge]['t_a'] = float('inf')
+            G[str(u)][str(v)][multi_edge]['capacity'] = 0 
+            G[str(u)][str(v)][multi_edge]['distance'] = 20*G[str(u)][str(v)][multi_edge]['distance_0']
+        else:
+          G[str(u)][str(v)]['t_a'] = float('inf')
+          G[str(u)][str(v)]['capacity'] = 0 
+          G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)][multi_edge]['distance_0']
+          
   return G, num_out
 
 def main():
@@ -94,7 +101,7 @@ def main():
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
-      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand)
+      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand, True)
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
@@ -121,7 +128,7 @@ def main2():
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
-      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand)
+      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand, False)
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
