@@ -60,12 +60,13 @@ def pick_scenarios(lnsas, weights, multi=True):
   return [1]
 def damage_network(G, scenario, multi=True):
   capacities = [100]*len(scenario)
+  num_out = 0
   for site in range(len(scenario)):
     lnSa = scenario[site]
     lnSa_cap = normalvariate(median_bridge_capacity[site],0.6) #CHECK THIS
     if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
       #print 'bridge out'
-     # num_out += 1
+      num_out += 1
       capacities[site] = 0
       #determine (u,v) of the link(s) carried by or affected by this bridge
       affected_edges = row_u_v_dict[site + 1]
@@ -81,6 +82,7 @@ def damage_network(G, scenario, multi=True):
           G[str(u)][str(v)]['t_a'] = float('inf')
           G[str(u)][str(v)]['capacity'] = 0 
           G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)]['distance_0']
+  print 'number of briges out: ', num_out
   return G, capacities
 
 def main():
