@@ -51,13 +51,17 @@ def run_simple_iteration(G, ground_motion, demand, multi):
 def pick_scenarios(lnsas, weights, multi=True):
   scenarios = []
   index = 0
-  for w in weights:
-    if weights[w]> 0.00001: #10^-5
-      scenarios.append(index)
-    index += 1
+  easy = False #whether to just take scenarios that are of engineering interest or do some complicated other thing
+  if easy:
+    for w in weights:
+      if weights[w]> 0.00001: #10^-5
+        scenarios.append(index)
+      index += 1
+  else:
+    scenarios = get_praveen_results(lnsas)
   print 'number of chosen scenarios: ', len(scenarios)
-#  return scenarios
-  return [1]
+  return scenarios
+#  return [1]
 def damage_network(G, scenario, multi=True):
   capacities = [100]*len(scenario)
   num_out = 0
