@@ -9,6 +9,7 @@ from math import log, exp, fabs
 from random import normalvariate, seed
 from groundTruthHazardjwb import QuakeMaps
 import pickle
+from get_praveen_results import get_praveen_results
 
 import networkx as nx
 #get bridge information
