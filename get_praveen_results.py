@@ -67,7 +67,7 @@ def get_praveen_results(lnsas):
     for scenario in scenarios:
       bad = False #in blacklist
       for item in black_list:
-        if scenario == item:
+        if int(scenario) == int(item):
           bad = True
       if bad == False:
         new_scenarios.append(scenario)
