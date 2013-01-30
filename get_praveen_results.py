@@ -63,7 +63,14 @@ def get_praveen_results(lnsas):
       del lnsas_subset[index]
       del weights_subset[index]
     print 'len of scenarios in scenario list before: ', len(scenarios)
-    new_scenarios = [scenario in scenarios if scenario is not in black_list]
+    for scenario in scenarios:
+      bad = False #in blacklist
+      for item in black_list:
+        if scenario == item:
+          bad = True
+      if bad == False:
+        new_scenarios.append(scenario)
+   # new_scenarios = [scenario in scenarios if scenario is not in black_list]
     print 'len of scenarios in scenario list after: ', len(new_scenarios)
 
     print 'len after removing blacklist: ', len(lnsas_subset)
