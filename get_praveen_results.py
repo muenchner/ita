@@ -56,8 +56,13 @@ def get_praveen_results(lnsas):
           weights_subset[counter] = weights[index]
           counter = counter+1
           scenarios.append(index)
+    for index in range(len(scenarios)):
+      wout.append((scenarios[index], weights_subset[index])) #should be index (0-4992) and new weight
+
+
     print 'len before removing blacklist: ', len(lnsas_subset)
     black_list = [24, 25, 26, 144, 145, 146, 147, 180, 181, 182, 183, 184, 185] #far away scenarios with index ranging from 0 to 206
+    other_black_list = [] #0-4992 numbers
     #remove elements at indices of black list
     for index in black_list:
       del lnsas_subset[index]
@@ -66,7 +71,7 @@ def get_praveen_results(lnsas):
     new_scenarios = []
     for scenario in scenarios:
       bad = False #in blacklist
-      for item in black_list:
+      for item in other_black_list:
         if int(scenario) == int(item):
           bad = True
       if bad == False:
@@ -90,11 +95,13 @@ def get_praveen_results(lnsas):
     print weights_subset
     print 'weight subset: ', sum(weights_subset)
     print 'number of maps in subset now: ', len(lnsas_subset)
-    wout = []
-    for index in range(len(new_scenarios)):
-      wout.append((new_scenarios[index], weights_subset[index])) #should be index (0-4992) and new weight
+#    wout = []
+#    print len(new_scenarios)
+#    print len(weights_subset)
+#    for index in range(len(new_scenarios)):
+#      wout.append((new_scenarios[index], weights_subset[index])) #should be index (0-4992) and new weight
 
-    return (new_scenarios, wout)
+    return (scenarios, wout) #new_scenarios
 if __name__ == '__main__':
   q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
   num_sites = len(q.lnsas[0])
