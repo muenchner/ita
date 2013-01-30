@@ -10,10 +10,10 @@ def get_praveen_results(lnsas):
   num_sites = len(lnsas)
   scenarios = [] #scenario numbers (0-4992) that are in the specified subset
 #  #subset with 12 centroid sites and 4993 ground motion maps
-  pkl_file = open('20120919subset12_20_500ok.pkl','rb')#20120831subset10_4_200.pkl', 'rb') #CHANGE THIS
+  pkl_file = open('input/20120919subset12_20_500ok.pkl','rb')#20120831subset10_4_200.pkl', 'rb') #CHANGE THIS
   subset = pickle.load(pkl_file)
   pkl_file.close()
-  pkl_file = open('20120919weight12_20_500ok.pkl','rb')#20120831weight10_4_200.pkl', 'rb') #CHANGE THIS
+  pkl_file = open('input/20120919weight12_20_500ok.pkl','rb')#20120831weight10_4_200.pkl', 'rb') #CHANGE THIS
   weights = pickle.load(pkl_file)
   pkl_file.close()
 #  yir_table_filename = '20120917_mtc_log_Y_ir_table_R50.pkl' #'20120912_mtc_log_Y_ir_table_R13.pkl'#'20120820_mtc_log_Y_ir_table.pkl'#'20120907_mtc_log_Y_ir_table_R20.pkl'#'20120820_mtc_log_Y_ir_table.pkl'#'20120907_mtc_log_Y_ir_table_R2.pkl' #'20120905_mtc_log_Y_ir_table.pkl' #13 return periods, 1557 sites #CHANGE THIS
