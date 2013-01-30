@@ -92,7 +92,7 @@ def get_praveen_results(lnsas):
     print 'number of maps in subset now: ', len(lnsas_subset)
     wout = []
     for index in range(len(new_scenarios)):
-      wout.append((new_scenarios[index], weights_subset[index]))
+      wout.append((new_scenarios[index], weights_subset[index])) #should be index (0-4992) and new weight
 
     return (new_scenarios, wout)
 if __name__ == '__main__':
