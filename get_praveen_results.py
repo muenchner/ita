@@ -91,6 +91,6 @@ def get_praveen_results(lnsas):
     print 'number of maps in subset now: ', len(lnsas_subset)
 if __name__ == '__main__':
   q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
-  num_sites = len(lnsas[0])
+  num_sites = len(q.lnsas[0])
  
   get_praveen_results(q.lnsas)  
