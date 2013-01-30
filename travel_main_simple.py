@@ -51,15 +51,18 @@ def run_simple_iteration(G, ground_motion, demand, multi):
 
 def pick_scenarios(lnsas, weights, multi=True):
   scenarios = []
+  wout = []
   index = 0
   easy = False #whether to just take scenarios that are of engineering interest or do some complicated other thing
   if easy:
     for w in weights:
       if weights[w]> 0.00001: #10^-5
         scenarios.append(index)
+        wout.append((index, weights[w]))
       index += 1
   else:
-    scenarios = get_praveen_results(lnsas)
+    (scenarios, wout) = get_praveen_results(lnsas)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_weights.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   return scenarios
 #  return [1]

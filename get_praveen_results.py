@@ -2,7 +2,7 @@
 #Date: Jan 30, 2013
 
 from groundTruthHazardjwb import QuakeMaps
-
+import pickle
 '''This is a hack code that just returns the scenario numbers (0-4992) that are in the specified subset, which was chosen by mixed-integer optimization running on Praveen's computer using zibopt based on Han and Davidson 2012'''
 
 
@@ -89,8 +89,15 @@ def get_praveen_results(lnsas):
     print weights_subset
     print 'weight subset: ', sum(weights_subset)
     print 'number of maps in subset now: ', len(lnsas_subset)
+    wout = []
+    for index in len(new_scenarios):
+      wout.append((index, weights_subset[index]))
+
+    return (new_scenarios, wout)
 if __name__ == '__main__':
   q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
   num_sites = len(q.lnsas[0])
  
-  get_praveen_results(q.lnsas)  
+  (scenarios, wout) = get_praveen_results(q.lnsas) 
+  print scenarios
+  print wout
