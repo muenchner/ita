@@ -56,6 +56,7 @@ def get_praveen_results(lnsas):
           weights_subset[counter] = weights[index]
           counter = counter+1
           scenarios.append(index)
+    wout = []
     for index in range(len(scenarios)):
       wout.append((scenarios[index], weights_subset[index])) #should be index (0-4992) and new weight
 
