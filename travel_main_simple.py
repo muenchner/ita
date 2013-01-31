@@ -53,7 +53,7 @@ def pick_scenarios(lnsas, weights, multi=True):
   scenarios = []
   wout = []
   index = 0
-  easy = False #whether to just take scenarios that are of engineering interest or do some complicated other thing
+  easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
   if easy:
     for w in weights:
       if weights[w]> 0: #0.00001: #10^-5
