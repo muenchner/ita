@@ -56,13 +56,13 @@ def pick_scenarios(lnsas, weights, multi=True):
   easy = False #whether to just take scenarios that are of engineering interest or do some complicated other thing
   if easy:
     for w in weights:
-      if weights[w]> 0.00001: #10^-5
+      if weights[w]> 0: #0.00001: #10^-5
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
   else:
     (scenarios, wout) = get_praveen_results(lnsas)
-  util.write_2dlist(time.strftime("%Y%m%d")+'_weights.txt', wout) #save the weights of the chosen scenarios
+  util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   return scenarios
 #  return [1]
@@ -116,9 +116,9 @@ def main():
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path2s.txt',travel_index_times)
 
 def main2():
   seed(0) #set seed
@@ -143,9 +143,9 @@ def main2():
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%100 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths.txt',travel_index_times)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
 
 
 if __name__ == '__main__':
