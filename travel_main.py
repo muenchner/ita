@@ -48,10 +48,16 @@ def pick_scenarios(lnsas, weights, multi=True):
   wout = []
   index = 0
   easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
-  if easy:
+  print 'length of lnsas: ', len(lnsas)
+  print 'length of weights: ', len(weights)
+  numeps = float(round(len(lnsas)/4993.0))
+  print 'numeps: ', numeps
+  wsum = 0
+  if easy == True:
     print 'easy'
     for w in weights:
-      if weights[w]> 0.0001: #10^-5
+      wsum += weights[w]
+      if weights[w]> 0.00001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
@@ -59,6 +65,8 @@ def pick_scenarios(lnsas, weights, multi=True):
     (scenarios, wout) = get_praveen_results(lnsas)
   util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
+  print 'weights of all scenarios: ', wsum
+  print 'the sum of the subset weights: ', sum([ww[1] for ww in wout])
   return scenarios
 
 def damage_network(G, scenario):
@@ -80,12 +88,15 @@ def damage_network(G, scenario):
 def main():
   seed(0) #set seed
   #get graph info
-  G = nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links
+  print '|V| = ', len(G.nodes())
+  print '|E| = ', len(G.edges())
   G = nx.freeze(G) #prevents edges or nodes to be added or deleted
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('input/20130209_mtc_total_lnsas3.pkl', 'input/20130209_mtc_magnitudes3.pkl', 'input/20130209_mtc_faults3.pkl', 'input/20130209_mtc_weights3.pkl', 'input/20130209_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130210_mtc_total_lnsas3.pkl', 'input/20130210_mtc_magnitudes3.pkl', 'input/20130210_mtc_faults3.pkl', 'input/20130210_mtc_weights3.pkl', 'input/20130210_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+
 
   q.num_sites = len(q.lnsas[0])
   #determine which scenarios you want to run
