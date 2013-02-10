@@ -57,7 +57,8 @@ def pick_scenarios(lnsas, weights, multi=True):
   print 'length of lnsas: ', len(lnsas)
   print 'length of weights: ', len(weights)
   wsum = 0
-  if easy:
+  if easy == True:
+    print 'easy'
     for w in weights:
       wsum += weights[w]
       if weights[w]> 0.00003: #10^-5
