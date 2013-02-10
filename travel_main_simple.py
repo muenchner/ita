@@ -54,9 +54,13 @@ def pick_scenarios(lnsas, weights, multi=True):
   wout = []
   index = 0
   easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
+  print 'length of lnsas: ', len(lnsas)
+  print 'length of weights: ', len(weights)
+  wsum = 0
   if easy:
     for w in weights:
-      if weights[w]> 0.00001: #10^-5
+      wsum += weights[w]
+      if weights[w]> 0.00003: #10^-5
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
@@ -64,6 +68,8 @@ def pick_scenarios(lnsas, weights, multi=True):
     (scenarios, wout) = get_praveen_results(lnsas)
   util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
+  print 'weights of all scenarios: ', wsum
+  print 'the sum of the subset weights: ', sum([ww[0] for ww in wout])
   return scenarios
 #  return [1]
 def damage_network(G, scenario, multi=True):
