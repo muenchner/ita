@@ -56,12 +56,14 @@ def pick_scenarios(lnsas, weights, multi=True):
   easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
   print 'length of lnsas: ', len(lnsas)
   print 'length of weights: ', len(weights)
+  numeps = float(round(len(lnsas)/4993.0))
+  print 'numeps: ', numeps
   wsum = 0
   if easy == True:
     print 'easy'
     for w in weights:
       wsum += weights[w]
-      if weights[w]> 0.00003: #10^-5
+      if weights[w]> 0.00001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
@@ -70,7 +72,7 @@ def pick_scenarios(lnsas, weights, multi=True):
   util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   print 'weights of all scenarios: ', wsum
-  print 'the sum of the subset weights: ', sum([ww[0] for ww in wout])
+  print 'the sum of the subset weights: ', sum([ww[1] for ww in wout])
   return scenarios
 #  return [1]
 def damage_network(G, scenario, multi=True):
