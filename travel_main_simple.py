@@ -27,13 +27,13 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   #change edge properties
   newG, capacities = damage_network(G, ground_motion, multi) #also returns the number of bridges out
   num_out = sum(x < 100 for x in capacities)
-  util.write_list(time.strftime("%Y%m%d")+'_bridges_scen_1.txt', capacities)   
+#  util.write_list(time.strftime("%Y%m%d")+'_bridges_scen_1.txt', capacities)   
   #get max flow
   start = time.time()
   #node 5753 is in superdistrict 12, which is santa clara county, and node 3144 is in superdistrict 18, which is alameda county. roughly these are san jose and oakland
   #node 7619 is in superdistrict 1 (7493 is also), which is sf, and node node 3144 is in superdistrict 18, which is alameda county. roughly these are san francisco and oakland
-  s = '7619'
-  t = '3144'
+  s = '5753'
+  t = '7493' #2702 
   flow = nx.max_flow(newG, s, t, capacity='capacity') #not supported by multigraph
   print 'time to get max flow: ', time.time() - start
 #  flow = -1 
@@ -56,7 +56,7 @@ def pick_scenarios(lnsas, weights, multi=True):
   easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
   if easy:
     for w in weights:
-      if weights[w]> 0: #0.00001: #10^-5
+      if weights[w]> 0.00001: #10^-5
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
@@ -96,39 +96,12 @@ def damage_network(G, scenario, multi=True):
 def main():
   seed(0) #set seed
   #get graph info
-  G = nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
+  G = nx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links. There is also the choice of a proper multidigraph: nx.read_gpickle("input/graphMTC_CentroidsLength5.gpickle")
   G = nx.freeze(G) #prevents edges or nodes to be added or deleted
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
-  q.num_sites = len(q.lnsas[0])
-  #determine which scenarios you want to run
-  good_indices = pick_scenarios(q.lnsas, q.weights)
-  
-  travel_index_times = []
-  index = 0
-  #loop over scenarios
-  for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
-    if index in good_indices:
-      print 'index: ', index
-      (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand, True)
-      travel_index_times.append((index, bridges, flow, path, path2))
-#      print 'new travel times: ', travel_index_times
-      if index%100 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
-    index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path2s.txt',travel_index_times)
-
-def main2():
-  seed(0) #set seed
-  #get graph info
-  G = nx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle") #noCentroidsLength15.gpickle") #does not have centroidal links 
-  G = nx.freeze(G) #prevents edges or nodes to be added or deleted
-  #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
-  demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
-  #get earthquake info
-  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130209_mtc_total_lnsas3.pkl', 'input/20130209_mtc_magnitudes3.pkl', 'input/20130209_mtc_faults3.pkl', 'input/20130209_mtc_weights3.pkl', 'input/20130209_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
   q.num_sites = len(q.lnsas[0])
   #determine which scenarios you want to run
   good_indices = pick_scenarios(q.lnsas, q.weights)
@@ -149,4 +122,4 @@ def main2():
 
 
 if __name__ == '__main__':
-  main2()
+  main()

@@ -43,18 +43,23 @@ def run_iteration(G, ground_motion, demand):
   newG = util.clean_up_graph(newG)
   return (travel_time, vmt)
 
-def pick_scenarios(lnsas, weights):
+def pick_scenarios(lnsas, weights, multi=True):
   scenarios = []
   wout = []
   index = 0
-  for w in weights:
-    if weights[w]> 0.00001: #10^-5
-      scenarios.append(index)
-      wout.append((index, weights[w]))
-    index += 1
-  util.write_2dlist(time.strftime("%Y%m%d")+'_weights.txt', wout) #save the weights of the chosen scenarios
+  easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
+  if easy:
+    for w in weights:
+      if weights[w]> 0.00001: #10^-5
+        scenarios.append(index)
+        wout.append((index, weights[w]))
+      index += 1
+  else:
+    (scenarios, wout) = get_praveen_results(lnsas)
+  util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   return scenarios
+
 def damage_network(G, scenario):
   for site in range(len(scenario)):
     lnSa = scenario[site]
@@ -79,7 +84,8 @@ def main():
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130209_mtc_total_lnsas3.pkl', 'input/20130209_mtc_magnitudes3.pkl', 'input/20130209_mtc_faults3.pkl', 'input/20130209_mtc_weights3.pkl', 'input/20130209_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+
   q.num_sites = len(q.lnsas[0])
   #determine which scenarios you want to run
   good_indices = pick_scenarios(q.lnsas, q.weights)
