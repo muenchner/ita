@@ -56,14 +56,14 @@ def pick_scenarios(lnsas, weights, multi=True):
   easy = True #whether to just take scenarios that are of engineering interest or do some complicated other thing
   print 'length of lnsas: ', len(lnsas)
   print 'length of weights: ', len(weights)
-  numeps = float(round(len(lnsas)/4993.0))
+  numeps = int(round(len(lnsas)/4993.0))
   print 'numeps: ', numeps
   wsum = 0
   if easy == True:
     print 'easy'
     for w in weights:
       wsum += weights[w]
-      if weights[w]> 0.0000001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
+      if weights[w]> 0.00001/float(numeps): #0.0000001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
@@ -110,7 +110,7 @@ def main():
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('input/20130210_mtc_total_lnsas3.pkl', 'input/20130210_mtc_magnitudes3.pkl', 'input/20130210_mtc_faults3.pkl', 'input/20130210_mtc_weights3.pkl', 'input/20130210_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #'input/20130210_mtc_total_lnsas3.pkl', 'input/20130210_mtc_magnitudes3.pkl', 'input/20130210_mtc_faults3.pkl', 'input/20130210_mtc_weights3.pkl', 'input/20130210_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl',  #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
   q.num_sites = len(q.lnsas[0])
   #determine which scenarios you want to run
   good_indices = pick_scenarios(q.lnsas, q.weights)
@@ -126,10 +126,11 @@ def main():
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%1000 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths3.txt',travel_index_times)
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths4.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths3.txt',travel_index_times)
-  print 'the number of scenarios I actually did: ', index
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths4.txt',travel_index_times)
+  print 'the number of scenarios I considered doing: ', index
+  print 'the number of scenarios I actually did: ', len(travel_index_times)
 
 if __name__ == '__main__':
   main()

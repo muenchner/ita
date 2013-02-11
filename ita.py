@@ -44,6 +44,8 @@ class ITA:
               self.G[u][v][best]['flow'] += od_flow
               t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
               self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow) #TODO Change this to the minimum of whatever the function returns and 1mph on the link or something
+              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow) #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (3600s / 1 hr)
+
     return self.G
 
       
