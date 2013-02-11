@@ -118,17 +118,18 @@ def main():
   travel_index_times = []
   index = 0
   #loop over scenarios
+  print 'size of lnsas: ', len(q.lnsas)
   for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
     if index in good_indices:
       print 'index: ', index
       (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand, False)
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
-      if index%100 ==0:
-        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
+      if index%1000 ==0:
+        util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths3.txt',travel_index_times)
     index += 1 #IMPORTANT
-  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths2.txt',travel_index_times)
-
+  util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths3.txt',travel_index_times)
+  print 'the number of scenarios I actually did: ', index
 
 if __name__ == '__main__':
   main()
