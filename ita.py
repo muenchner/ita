@@ -43,7 +43,7 @@ class ITA:
             if (self.G[u][v][best]['capacity']>0):
               self.G[u][v][best]['flow'] += od_flow
               t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
-              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow)
+              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow) #TODO Change this to the minimum of whatever the function returns and 1mph on the link or something
     return self.G
 
       
