@@ -61,8 +61,10 @@ def pick_scenarios(lnsas, weights, multi=True):
   wsum = 0
   if easy == True:
     print 'easy'
+    print 0.00001/float(numeps)
     for w in weights:
       wsum += weights[w]
+      print weights[w]
       if weights[w]> 0.00001/float(numeps): #0.0000001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
         scenarios.append(index)
         wout.append((index, weights[w]))
