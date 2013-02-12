@@ -14,7 +14,7 @@ def build_demand(trip_filename, centroid_filename):
   with open(trip_filename,'rb') as f:
     read_data = f.read().splitlines()
     for row in read_data[4:]:
-      tokens = row.split(',')
+      tokens = row.split('\t')
       print tokens
       demand_dict[str(sd_dict[str(int(tokens[0]))])][str(sd_dict[str(int(tokens[1]))])] = int(tokens[2]) + int(tokens[3])  #int(tokens[12])
       if (int(tokens[2]) + int(tokens[3])) > int(tokens[12]):
