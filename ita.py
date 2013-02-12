@@ -20,7 +20,7 @@ class ITA:
         #find the shortest paths from this origin to each destination
         paths_dict = nx.single_source_dijkstra_path(self.G, origin, cutoff = None, weight = 't_a') #Compute shortest path between source and all other reachable nodes for a weighted graph. Returns dict keyed by by target with the value being a list of node ids of the shortest path
         for destination in self.demand[origin].keys():
-          od_flow = iteration_vals[i] * self.demand[origin][destination]
+          od_flow = iteration_vals[i] * self.demand[origin][destination]*0.053 #to get morning flows, take 5.3% of daily driver values. 11.5/(4.5*6+11.5*10+14*4+4.5*4) from Figure S10 of http://www.nature.com/srep/2012/121220/srep01001/extref/srep01001-s1.pdf
           #get path
           path_list = paths_dict[destination] #list of nodes
           
@@ -43,8 +43,10 @@ class ITA:
             if (self.G[u][v][best]['capacity']>0):
               self.G[u][v][best]['flow'] += od_flow
               t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
-              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow) #TODO Change this to the minimum of whatever the function returns and 1mph on the link or something
-              self.G[u][v][best]['t_a'] = t.get_new_travel_time(od_flow) #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (3600s / 1 hr)
+              travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (3600s / 1 hr)
+              if travel_time > self.G[u][v][best]['distance_0']*(1.0/3600.0):
+                print travel_time
+              self.G[u][v][best]['t_a'] = travel_time
 
     return self.G
 
