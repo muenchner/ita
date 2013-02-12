@@ -57,13 +57,13 @@ def pick_scenarios(lnsas, weights, multi=True):
     print 'easy'
     for w in weights:
       wsum += weights[w]
-      if weights[w]> 0.0000001/numeps: # 0.00001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
+      if weights[w]> 0.00001/numeps: # 0.00001/numeps: #10^-5 divided by num eps because the weights get renormalized when take more than one epsilon realization per scenario
         scenarios.append(index)
         wout.append((index, weights[w]))
       index += 1
   else:
     (scenarios, wout) = get_praveen_results(lnsas)
-  util.write_2dlist(time.strftime("%Y%m%d")+'_weights2.txt', wout) #save the weights of the chosen scenarios
+  util.write_2dlist(time.strftime("%Y%m%d")+'_weights5.txt', wout) #save the weights of the chosen scenarios
   print 'number of chosen scenarios: ', len(scenarios)
   print 'weights of all scenarios: ', wsum
   print 'the sum of the subset weights: ', sum([ww[1] for ww in wout])
@@ -95,7 +95,7 @@ def main():
   #get od info. This is in format of a dict keyed by od, like demand[sd1][sd2] = 200000.
   demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv') #bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv')
   #get earthquake info
-  q = QuakeMaps('input/20130210_mtc_total_lnsas3.pkl', 'input/20130210_mtc_magnitudes3.pkl', 'input/20130210_mtc_faults3.pkl', 'input/20130210_mtc_weights3.pkl', 'input/20130210_mtc_scenarios3.pkl') #('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None):
+  q = QuakeMaps('input/20130107_mtc_total_lnsas1.pkl', 'input/20130107_mtc_magnitudes1.pkl', 'input/20130107_mtc_faults1.pkl', 'input/20130107_mtc_weights1.pkl', 'input/20130107_mtc_scenarios1.pkl') #totalfilename=None, magfilename=None, faultfilename=None, weightsfilename=None, scenariofilename=None): 'input/20130210_mtc_total_lnsas3.pkl', 'input/20130210_mtc_magnitudes3.pkl', 'input/20130210_mtc_faults3.pkl', 'input/20130210_mtc_weights3.pkl', 'input/20130210_mtc_scenarios3.pkl') #(
 
 
   q.num_sites = len(q.lnsas[0])
