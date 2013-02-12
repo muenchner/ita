@@ -43,10 +43,10 @@ class ITA:
             if (self.G[u][v][best]['capacity']>0):
               self.G[u][v][best]['flow'] += od_flow
               t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
-              travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (3600s / 1 hr)
-              if travel_time > self.G[u][v][best]['distance_0']*(1.0/3600.0):
+              travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (1hr / 3600s)
+              if travel_time > self.G[u][v][best]['distance_0']*3600:
                 print travel_time
-                print 'and 1mph: ', self.G[u][v][best]['distance_0']*(1.0/3600.0)
+                print 'and 1mph: ', self.G[u][v][best]['distance_0']*3600
               self.G[u][v][best]['t_a'] = travel_time
 
     return self.G
