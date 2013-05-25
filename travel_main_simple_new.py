@@ -19,11 +19,15 @@ import networkx as nx
 with open('input/20130518_master_bridge_dict.pkl','rb') as f:
   master_dict = pickle.load(f)
   #create the list of median bridge capacities for the EXTENSIVE damage state (Werner at al 2006 say this is min ds to be closed 2-3 days post-eq)
-  median_bridge_capacity = [master_dict[k]['ext_lnSa'] for k in master_dict.keys()]
-  #then, create a dictionary where key=bridge row number (1-1xxx), value=list of pairs of start and end node ID
+  median_bridge_capacity = []
   row_u_v_dict = {}
-  for key in master_dict.keys():
-    row_u_v_dict[int(key)] = master_dict[key]['a_b_pairs_direct'] + master_dict[key]['a_b_pairs_indirect']
+  for site in range(1, ):
+    median_bridge_capacity.append(master_dict[str(site)]['ext_lnSa'])
+    row_u_v_dict[site]  = master_dict[str(site)]['a_b_pairs_direct'] + master_dict[str(site)]['a_b_pairs_indirect']
+  # median_bridge_capacity = [master_dict[k]['ext_lnSa'] for k in master_dict.keys()]
+  # #then, create a dictionary where key=bridge row number (1-1xxx), value=list of pairs of start and end node ID
+  # for key in master_dict.keys():
+  #   row_u_v_dict[int(key)] = master_dict[key]['a_b_pairs_direct'] + master_dict[key]['a_b_pairs_indirect']
   #TODO
 print 'ok, have %s median bridge capacities' % str(len(median_bridge_capacity))
 print 'ok, have %s relations between bridges and the network ' % str(len(row_u_v_dict.keys()))
