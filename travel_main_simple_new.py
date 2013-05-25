@@ -23,10 +23,10 @@ with open('input/20130518_master_bridge_dict.pkl','rb') as f:
   #then, create a dictionary where key=bridge row number (1-1xxx), value=list of pairs of start and end node ID
   row_u_v_dict = {}
   for key in master_dict.keys():
-    row_u_v_dict[key] = master_dict['a_b_pairs_direct'] + master_dict['a_b_pairs_indirect']
+    row_u_v_dict[int(key)] = master_dict[key]['a_b_pairs_direct'] + master_dict[key]['a_b_pairs_indirect']
   #TODO
 print 'ok, have %s median bridge capacities' % str(len(median_bridge_capacity))
-print 'ok, have %s relations between bridges and the network ' str(len(row_u_v_dict.keys()))
+print 'ok, have %s relations between bridges and the network ' % str(len(row_u_v_dict.keys()))
 
 
 
@@ -54,7 +54,7 @@ def run_simple_iteration(G, ground_motion, demand, multi):
   t = '7493' #2702 
   flow = 0 #UNDO
   # flow = nx.max_flow(newG, s, t, capacity='capacity') #not supported by multigraph
-  print 'time to get max flow: ', time.time() - start
+  # print 'time to get max flow: ', time.time() - start
 #  flow = -1 
   #get ave. shortest path
 #  start = time.time()
@@ -109,7 +109,11 @@ def damage_network(G, scenario, multi=True):
       num_out += 1
       capacities[site] = 0
       #determine (u,v) of the link(s) carried by or affected by this bridge
-      affected_edges = row_u_v_dict[site + 1]
+      try:
+        affected_edges = row_u_v_dict[site + 1]
+      except KeyError:
+        print 'bad key: ', site
+        break
 #      print 'affected edges: ', affected_edges
       #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
@@ -145,13 +149,14 @@ def main():
   index = 0
   #loop over scenarios
   print 'size of lnsas: ', len(q.lnsas)
-  for scenario in q.lnsas: #each 'scenario' has 1557 values of lnsa, i.e. one per site
+  for scenario in q.lnsas: #each 'scenario' has 1xxx values of lnsa, i.e. one per site
     if index in good_indices:
-      print 'index: ', index
+      # print 'index: ', index
       (bridges, flow, path, path2) = run_simple_iteration(G, scenario, demand, False)
       travel_index_times.append((index, bridges, flow, path, path2))
 #      print 'new travel times: ', travel_index_times
       if index%1000 ==0:
+        print 'index: ', index
         util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths_10eps.txt',travel_index_times)
     index += 1 #IMPORTANT
   util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_paths_10eps.txt',travel_index_times)
