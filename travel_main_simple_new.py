@@ -15,34 +15,9 @@ import networkx as nx
 #get bridge information
 
 #first load the all-purpose dictionary linking info about the bridges
-#TODO
 with open('input/20130518_master_bridge_dict.pkl','rb') as f:
   master_dict = pickle.load(f)
-#   #create the list of median bridge capacities for the EXTENSIVE damage state (Werner at al 2006 say this is min ds to be closed 2-3 days post-eq)
-#   median_bridge_capacity = []
-#   row_u_v_dict = {}
-#   for site in range(1, ):
-#     median_bridge_capacity.append(master_dict[str(site)]['ext_lnSa'])
-#     row_u_v_dict[site]  = master_dict[str(site)]['a_b_pairs_direct'] + master_dict[str(site)]['a_b_pairs_indirect']
-#   # median_bridge_capacity = [master_dict[k]['ext_lnSa'] for k in master_dict.keys()]
-#   # #then, create a dictionary where key=bridge row number (1-1xxx), value=list of pairs of start and end node ID
-#   # for key in master_dict.keys():
-#   #   row_u_v_dict[int(key)] = master_dict[key]['a_b_pairs_direct'] + master_dict[key]['a_b_pairs_indirect']
-#   #TODO
-# print 'ok, have %s median bridge capacities' % str(len(median_bridge_capacity))
-# print 'ok, have %s relations between bridges and the network ' % str(len(row_u_v_dict.keys()))
 
-
-
-
-# with open( 'input/MedBridgeCap.txt','rb') as f: #UPDATED May 23, 2013
-#   median_bridge_capacity = f.readlines()
-# median_bridge_capacity = [log(float(thing)) for thing in median_bridge_capacity] #convert to log
-
-# #UPDATED May 23, 2013
-# with open('input/20130123_mtc_bridgerow_u_v_dict.pkl','rb') as filename:
-#   row_u_v_dict = pickle.load(filename) #key=bridge row number (1-1557), value=list of pairs of start and end node ID
-# print 'ok, have relations between bridges and the network'
 
 def run_simple_iteration(G, ground_motion, demand, multi):
   #G is a graph, demand is a dictionary keyed by source and target of demand per weekday. multi is a boolean that is true if it is a multigraph (can have two parallel edges between nodes)
@@ -106,21 +81,14 @@ def damage_network(G, scenario, multi=True):
   capacities = [100]*len(scenario)
   num_out = 0
   for site in master_dict.keys():
-    lnSa = scenario[master_dict[site]['new_id']]
+    lnSa = scenario[master_dict[site]['new_id']-1]
     lnSa_cap = normalvariate(master_dict[site]['ext_lnSa'],0.6) #CHECK THIS
     if float(lnSa) > float(lnSa_cap):#in the moderate damage state as defined by HAZUS
       #print 'bridge out'
       num_out += 1
-      capacities[site] = 0
+      capacities[master_dict[site]['new_id']-1] = 0
       #determine (u,v) of the link(s) carried by or affected by this bridge
       affected_edges = master_dict[site]['a_b_pairs_direct'] + master_dict[site]['a_b_pairs_indirect']
-      # try:
-      #   affected_edges = row_u_v_dict[site + 1]
-      # except KeyError:
-      #   print 'bad key: ', site
-      #   break
-#      print 'affected edges: ', affected_edges
-      #affected_edges = [('5633','12707'), ('5632', '5625')]
       for [u,v] in affected_edges:
         if multi == True:
           for multi_edge in G[str(u)][str(v)].keys():
