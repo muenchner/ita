@@ -1,0 +1,63 @@
+; bus.PNR
+; Conversion of PNR connectors from 1099 to 1454 zone system. SI. 8/22/2003
+; Service for 2000 RVAL00
+; Note that this file contains new bus PNR stations (not coded for 98 val) for Mill Valley, 
+; Cotati, Petaluma, Healdsburg, Dixon, Livermore, and Danville
+
+;****************
+; Read Bus PNR's*
+;****************
+
+PNR NODE=12831 ZONES=1-1454         ; Fremont: Mission @ I-580
+PNR NODE=12832 ZONES=1-1454         ; Fremont: Rte 84 @ Newark
+PNR NODE=12834 ZONES=1-1454         ; Livermore: Airway @ Ruttan
+PNR NODE=12885 ZONES=1-1454         ; Livermore: Portola @ P Street
+PNR NODE=12835 ZONES=1-1454         ; Oakland: I-580 @ Fruitvale
+PNR NODE=12839 ZONES=1-1454         ; Antioch: SR 4 @ Hillcrest
+PNR NODE=12840 ZONES=1-1454         ; Walnut Creek: Mitchell @ Oak Grove
+PNR NODE=12886 ZONES=1-1454         ; Danville: I-680 @ Sycamore Valley
+PNR NODE=12841 ZONES=1-1454         ; Herclues: I-80 @ Willow
+PNR NODE=12842 ZONES=1-1454         ; Brentwood: Dainty @ Walnut
+PNR NODE=12838 ZONES=1-1454         ; Richmond: I-80 @ Richmond Parkway
+PNR NODE=12843 ZONES=1-1454         ; Richmond: I-80 @ Hilltop
+PNR NODE=12844 ZONES=1-1454         ; Mill Valley: Manzanitas Bus Pad
+PNR NODE=12880 ZONES=1-1454         ; Mill Valley: Strawberry and Seminary
+PNR NODE=12871 ZONES=1-1454         ; Novato: Atherton Bus Pad
+PNR NODE=12872 ZONES=1-1454         ; Novato: Rowland Blvd
+PNR NODE=12845 ZONES=1-1454         ; Novato: Alameda del Prado Bus Pad
+PNR NODE=12846 ZONES=1-1454         ; San Rafael: GGT Bus Terminal (Anderson)
+PNR NODE=12847 ZONES=1-1454         ; San Rafael: 4th and Heatherton
+PNR NODE=12848 ZONES=1-1454         ; San Rafael: Lucas Valley Road Bus Pad         
+PNR NODE=12874 ZONES=1-1454         ; Petaluma: Fairgrounds Drive
+PNR NODE=12882 ZONES=1-1454 	    ; Petaluma: US 101 @ 116 and Lakeville Street
+PNR NODE=12849 ZONES=1-1454         ; Cotati: US 101 @ Gravenstein
+PNR NODE=12881 ZONES=1-1454         ; Cotati: Old Redwood Highway & St. Josephs
+PNR NODE=12883 ZONES=1-1454         ; Healdsburg: Healdsburg and Grant Avenue
+PNR NODE=12851 ZONES=1-1454         ; Rohnert Park: Roberts Lake and Golf Course Drive
+PNR NODE=12852 ZONES=1-1454         ; Rohnert Park: Rohnert Park Expressway
+PNR NODE=12853 ZONES=1-1454         ; Santa Rosa: Rte 12 @ Brookwood
+PNR NODE=12873 ZONES=1-1454         ; Santa Rosa: GGT Piner & Industrial
+PNR NODE=12854 ZONES=1-1454         ; Colma: D St. @ Junipero Serra Blvd.
+PNR NODE=12855 ZONES=1-1454         ; Pacifica: Rte 1 @ Linda Mar
+PNR NODE=12856 ZONES=1-1454         ; San Mateo: US 101 @ SR 92
+PNR NODE=12876 ZONES=1-1454         ; Crystal Springs Reservoir: Hwy 92 @ Ralston
+PNR NODE=12877 ZONES=1-1454         ; Redwood City: US 101 @ Whipple
+PNR NODE=12878 ZONES=1-1454         ; Palo Alto: Oregon Expwy @ El Camino Real
+PNR NODE=12879 ZONES=1-1454         ; Brisbane: Bayshore Blvd. @ Tunnel Ave.
+PNR NODE=12857 ZONES=1-1454         ; Milpitas: Weller @ Main
+PNR NODE=12858 ZONES=1-1454         ; San Jose: Almaden @ Camden
+PNR NODE=12859 ZONES=1-1454         ; San Jose: Camden @ Branham
+PNR NODE=12860 ZONES=1-1454         ; San Jose: Eastridge Mall
+PNR NODE=12865 ZONES=1-1454         ; Vallejo: Curtola @ Lemon
+PNR NODE=12875 ZONES=1-1454         ; Vacaville: Davis Steet PNR
+PNR NODE=12868 ZONES=1-1454         ; Fairfield: Solano Mall
+PNR NODE=12869 ZONES=1-1454         ; Fairfield: Magellan Rd
+PNR NODE=12870 ZONES=1-1454         ; Suisun: Florida @ Main
+PNR NODE=12878 ZONES=1-1454 	    ; Dixon: B Street @ Jefferson
+PNR NODE=15731 ZONES=1-1454         ; Hercules: San Pablo, Sycamore & John Muir Pkwy
+PNR NODE=16050 ZONES=1-1454         ; Pacheco Blvd. Transit Hub PNR
+PNR NODE=16979 ZONES=1-1454         ; Vacaville Intermodal Center PNR
+PNR NODE=15989 ZONES=1-1454         ; Oakley
+PNR NODE=15999 ZONES=1-1454         ; Trancas Intermodal PNR
+PNR NODE=16010 ZONES=1-1454         ; Pittsburg PNR
+PNR NODE=16015 ZONES=1-1454         ; Byron PNR

@@ -1,0 +1,49 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow1472extensive.net
+	CTIM = FFT 
+	if (a = 2046 & b = 2111) CAPCLASS = 62
+	if (a = 2046 & b = 2111) SPDCLASS = 62
+	if (a = 8602 & b = 8603) CAPCLASS = 62
+	if (a = 8602 & b = 8603) SPDCLASS = 62
+	if (a = 8603 & b = 8602) CAPCLASS = 62
+	if (a = 8603 & b = 8602) SPDCLASS = 62
+	if (a = 11063 & b = 11810) CAPCLASS = 62
+	if (a = 11063 & b = 11810) SPDCLASS = 62
+	if (a = 11811 & b = 11064) CAPCLASS = 62
+	if (a = 11811 & b = 11064) SPDCLASS = 62
+	if (a = 11916 & b = 11919) CAPCLASS = 62
+	if (a = 11916 & b = 11919) SPDCLASS = 62
+	if (a = 3021 & b = 3013) CAPCLASS = 62
+	if (a = 3021 & b = 3013) SPDCLASS = 62
+	if (a = 3022 & b = 3015) CAPCLASS = 62
+	if (a = 3022 & b = 3015) SPDCLASS = 62
+	if (a = 1950 & b = 1955) CAPCLASS = 62
+	if (a = 1950 & b = 1955) SPDCLASS = 62
+	if (a = 1918 & b = 1917) CAPCLASS = 62
+	if (a = 1918 & b = 1917) SPDCLASS = 62
+	if (a = 2345 & b = 2354) CAPCLASS = 62
+	if (a = 2345 & b = 2354) SPDCLASS = 62
+	if (a = 2354 & b = 2345) CAPCLASS = 62
+	if (a = 2354 & b = 2345) SPDCLASS = 62
+	if (a = 10408 & b = 10409) CAPCLASS = 62
+	if (a = 10408 & b = 10409) SPDCLASS = 62
+	if (a = 20206 & b = 10411) CAPCLASS = 62
+	if (a = 20206 & b = 10411) SPDCLASS = 62
+	if (a = 2337 & b = 2361) CAPCLASS = 62
+	if (a = 2337 & b = 2361) SPDCLASS = 62
+	if (a = 2353 & b = 2338) CAPCLASS = 62
+	if (a = 2353 & b = 2338) SPDCLASS = 62
+	if (a = 2023 & b = 2059) CAPCLASS = 62
+	if (a = 2023 & b = 2059) SPDCLASS = 62
+	if (a = 2165 & b = 2168) CAPCLASS = 62
+	if (a = 2165 & b = 2168) SPDCLASS = 62
+	if (a = 2165 & b = 2166) CAPCLASS = 62
+	if (a = 2165 & b = 2166) SPDCLASS = 62
+	if (a = 2169 & b = 2059) CAPCLASS = 62
+	if (a = 2169 & b = 2059) SPDCLASS = 62
+	if (a = 11647 & b = 11658) CAPCLASS = 62
+	if (a = 11647 & b = 11658) SPDCLASS = 62
+	if (a = 11657 & b = 11668) CAPCLASS = 62
+	if (a = 11657 & b = 11668) SPDCLASS = 62
+endrun 

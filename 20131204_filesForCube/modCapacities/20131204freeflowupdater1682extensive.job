@@ -1,0 +1,49 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow1682extensive.net
+	CTIM = FFT 
+	if (a = 10161 & b = 10593) CAPCLASS = 62
+	if (a = 10161 & b = 10593) SPDCLASS = 62
+	if (a = 4867 & b = 4908) CAPCLASS = 62
+	if (a = 4867 & b = 4908) SPDCLASS = 62
+	if (a = 4907 & b = 5160) CAPCLASS = 62
+	if (a = 4907 & b = 5160) SPDCLASS = 62
+	if (a = 4894 & b = 5161) CAPCLASS = 62
+	if (a = 4894 & b = 5161) SPDCLASS = 62
+	if (a = 2143 & b = 2147) CAPCLASS = 62
+	if (a = 2143 & b = 2147) SPDCLASS = 62
+	if (a = 9242 & b = 10038) CAPCLASS = 62
+	if (a = 9242 & b = 10038) SPDCLASS = 62
+	if (a = 2145 & b = 2094) CAPCLASS = 62
+	if (a = 2145 & b = 2094) SPDCLASS = 62
+	if (a = 10036 & b = 20000) CAPCLASS = 62
+	if (a = 10036 & b = 20000) SPDCLASS = 62
+	if (a = 2047 & b = 2148) CAPCLASS = 62
+	if (a = 2047 & b = 2148) SPDCLASS = 62
+	if (a = 20197 & b = 9049) CAPCLASS = 62
+	if (a = 20197 & b = 9049) SPDCLASS = 62
+	if (a = 5796 & b = 4252) CAPCLASS = 62
+	if (a = 5796 & b = 4252) SPDCLASS = 62
+	if (a = 5812 & b = 5831) CAPCLASS = 62
+	if (a = 5812 & b = 5831) SPDCLASS = 62
+	if (a = 9046 & b = 20196) CAPCLASS = 62
+	if (a = 9046 & b = 20196) SPDCLASS = 62
+	if (a = 8622 & b = 8624) CAPCLASS = 62
+	if (a = 8622 & b = 8624) SPDCLASS = 62
+	if (a = 3043 & b = 3146) CAPCLASS = 62
+	if (a = 3043 & b = 3146) SPDCLASS = 62
+	if (a = 3146 & b = 3043) CAPCLASS = 62
+	if (a = 3146 & b = 3043) SPDCLASS = 62
+	if (a = 3029 & b = 3145) CAPCLASS = 62
+	if (a = 3029 & b = 3145) SPDCLASS = 62
+	if (a = 3044 & b = 3028) CAPCLASS = 62
+	if (a = 3044 & b = 3028) SPDCLASS = 62
+	if (a = 11802 & b = 11809) CAPCLASS = 62
+	if (a = 11802 & b = 11809) SPDCLASS = 62
+	if (a = 11809 & b = 11802) CAPCLASS = 62
+	if (a = 11809 & b = 11802) SPDCLASS = 62
+	if (a = 11808 & b = 8672) CAPCLASS = 62
+	if (a = 11808 & b = 8672) SPDCLASS = 62
+	if (a = 8671 & b = 11807) CAPCLASS = 62
+	if (a = 8671 & b = 11807) SPDCLASS = 62
+endrun 

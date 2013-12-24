@@ -1,0 +1,31 @@
+; Amtrak.PNR  
+; Conversion of PNR connectors from 1099 to 1454 zone system. SI. 8/22/2003
+; Service for 2000 RVAL00
+; Includes ACE service
+
+;**********************
+; Read AMTRAK PNR's   *
+;**********************
+
+PNR NODE=14841-14641 TIME=1.00 ZONES=1-1454                   	  ; San Jose AMTRAK Depot
+PNR NODE=14843-14643 TIME=1.00 ZONES=1-1454                   	  ; Great America
+PNR NODE=14844-14644 TIME=2.00 ZONES=1-1454                  	  ; Fremont
+PNR NODE=14846-14646 TIME=2.00 ZONES=1-1454                   	  ; Hayward
+PNR NODE=14847-14647 TIME=2.00 ZONES=1-1454   	  ; Coliseum BART not in 1998
+PNR NODE=14848-14648 COST=0.78 TIME=1.00 ZONES=1-1454 	          ; Jack London Square
+PNR NODE=14849-14649 TIME=1.00 ZONES=1-1454                	  ; Emeryville         
+PNR NODE=14850-14650 TIME=1.00 ZONES=1-1454                       ; Berkeley
+PNR NODE=14851-14651 TIME=2.00 ZONES=1-1454                   	  ; Richmond AMTRAK
+PNR NODE=14854-14654 TIME=1.00 ZONES=1-1454                   	  ; Martinez
+PNR NODE=14855-14655 TIME=4.00 ZONES=1-1454                	  ; Suisun City
+PNR NODE=14858-14658 TIME=2.00 ZONES=1-1454                 	  ; Antioch
+PNR NODE=14862-14706 TIME=2.00 ZONES=1-1454                    	  ; Pleasanton
+PNR NODE=14863-14707 TIME=2.00 ZONES=1-1454                    	  ; Livermore
+PNR NODE=14864-14708 TIME=2.00 ZONES=1-1454              	  ; Vasco Road
+;PNR NODE=14729-14529 TIME=2.00 ZONES=1-1454                   	  ; Central Valley
+PNR NODE=14852-14652 TIME=2.00 ZONES=1-1454                       ; Hercules
+PNR NODE=14856-14656 TIME=3.00 ZONES=1-1454                       ; Fairfield/Vacaville
+
+
+
+

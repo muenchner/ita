@@ -1,0 +1,21 @@
+14708		14707		290		;		Vasco Road to	Livermore
+14708		14706		290		;		Vasco Road to	Pleasanton
+14708		14644		502		;		Vasco Road to	Fremont
+14708		14643		721		;		Vasco Road to	Great America
+14708		14642		721		;		Vasco Road to	Santa Clara
+14708		14641		721		;		Vasco Road to	San Jose
+14707		14706		290		;		Livermore to	Pleasanton
+14707		14644		502		;		Livermore to	Fremont
+14707		14643		721		;		Livermore to	Great America
+14707		14642		721		;		Livermore to	Santa Clara
+14707		14641		721		;		Livermore to	San Jose
+14706		14644		502		;		Pleasanton to	Fremont
+14706		14643		721		;		Pleasanton to	Great America
+14706		14642		721		;		Pleasanton to	Santa Clara
+14706		14641		721		;		Pleasanton to	San Jose
+14644		14643		502		;		Fremont to	Great America
+14644		14642		502		;		Fremont to	Santa Clara
+14644		14641		502		;		Fremont to	San Jose
+14643		14642		290		;		Great America to	Santa Clara
+14643		14641		290		;		Great America to	San Jose
+14642		14641		290		;		Santa Clara to	San Jose

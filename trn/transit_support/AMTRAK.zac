@@ -1,0 +1,64 @@
+;  AMTRAK.ZAC
+;
+; 
+
+/*
+Use ZONEACCESS control to create mode 5 walk access walk funnel links
+*/
+
+; San Jose AMTRAK Depot
+ZONEACCESS link=14941-14641 mode=5
+
+;Great America
+ZONEACCESS link=14943-14643 mode=5
+
+;Fremont
+ZONEACCESS link=14944-14644 mode=5
+
+;Union City
+;ZONEACCESS link=14945-14645 mode=5
+
+;Hayward
+ZONEACCESS link=14946-14646 mode=5
+
+; Coliseum BART - not in 1998
+;ZONEACCESS link=14947-14647 mode=5
+
+;Jack London Square
+ZONEACCESS link=14948-14648 mode=5
+
+;Emeryville         
+ZONEACCESS link=14949-14649 mode=5
+
+;Berkeley
+ZONEACCESS link=14950-14650 mode=5
+
+;Richmond AMTRAK
+ZONEACCESS link=14951-14651 mode=5
+
+;Hercules
+ZONEACCESS link=14952-14652 mode=5
+
+;Martinez
+ZONEACCESS link=14954-14654 mode=5
+
+;Suisun City
+ZONEACCESS link=14955-14655 mode=5
+
+;Fairfield  
+ZONEACCESS link=14956-14656 mode=5
+
+;Antioch
+ZONEACCESS link=14958-14658 mode=5
+;
+;Pleasanton
+ZONEACCESS link=14962-14706 mode=5
+
+;Livermore-Junction
+ZONEACCESS link=14963-14707 mode=5
+
+;Livermore-LLL @ Vasco Rd
+ZONEACCESS link=14964-14708 mode=5
+
+;ALA/SJQ County Lines (Central Valley)- for VTA use
+;ZONEACCESS link=14929-14529 mode=5

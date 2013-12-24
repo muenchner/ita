@@ -1,0 +1,45 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow10630extensive.net
+	CTIM = FFT 
+	if (a = 6077 & b = 6083) CAPCLASS = 62
+	if (a = 6077 & b = 6083) SPDCLASS = 62
+	if (a = 6346 & b = 6303) CAPCLASS = 62
+	if (a = 6346 & b = 6303) SPDCLASS = 62
+	if (a = 6342 & b = 6356) CAPCLASS = 62
+	if (a = 6342 & b = 6356) SPDCLASS = 62
+	if (a = 6356 & b = 6342) CAPCLASS = 62
+	if (a = 6356 & b = 6342) SPDCLASS = 62
+	if (a = 6327 & b = 6575) CAPCLASS = 62
+	if (a = 6327 & b = 6575) SPDCLASS = 62
+	if (a = 6327 & b = 6328) CAPCLASS = 62
+	if (a = 6327 & b = 6328) SPDCLASS = 62
+	if (a = 6572 & b = 6571) CAPCLASS = 62
+	if (a = 6572 & b = 6571) SPDCLASS = 62
+	if (a = 4850 & b = 5356) CAPCLASS = 62
+	if (a = 4850 & b = 5356) SPDCLASS = 62
+	if (a = 5356 & b = 4850) CAPCLASS = 62
+	if (a = 5356 & b = 4850) SPDCLASS = 62
+	if (a = 2036 & b = 2032) CAPCLASS = 62
+	if (a = 2036 & b = 2032) SPDCLASS = 62
+	if (a = 2033 & b = 2170) CAPCLASS = 62
+	if (a = 2033 & b = 2170) SPDCLASS = 62
+	if (a = 6303 & b = 6301) CAPCLASS = 62
+	if (a = 6303 & b = 6301) SPDCLASS = 62
+	if (a = 6302 & b = 6354) CAPCLASS = 62
+	if (a = 6302 & b = 6354) SPDCLASS = 62
+	if (a = 6354 & b = 6302) CAPCLASS = 62
+	if (a = 6354 & b = 6302) SPDCLASS = 62
+	if (a = 6188 & b = 6405) CAPCLASS = 62
+	if (a = 6188 & b = 6405) SPDCLASS = 62
+	if (a = 6405 & b = 6188) CAPCLASS = 62
+	if (a = 6405 & b = 6188) SPDCLASS = 62
+	if (a = 6409 & b = 6540) CAPCLASS = 62
+	if (a = 6409 & b = 6540) SPDCLASS = 62
+	if (a = 6541 & b = 6408) CAPCLASS = 62
+	if (a = 6541 & b = 6408) SPDCLASS = 62
+	if (a = 4850 & b = 4917) CAPCLASS = 62
+	if (a = 4850 & b = 4917) SPDCLASS = 62
+	if (a = 4917 & b = 4850) CAPCLASS = 62
+	if (a = 4917 & b = 4850) SPDCLASS = 62
+endrun 

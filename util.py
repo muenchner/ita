@@ -16,39 +16,54 @@ class TravelTime:
   
     return self.t_0*(1 + alpha*(flow/float(self.cap_0))**beta)  
 
-def clean_up_graph(G, multi=True):
+def clean_up_graph(G):
   #takes a graph and makes all flows 0 and makes t_a equal to t_0
-  for n,nbrsdict in G.adjacency_iter():
-    for nbr,keydict in nbrsdict.items():
-      if multi == True:
+  is_multi = G.is_multigraph()
+  if is_multi == True:
+    for n,nbrsdict in G.adjacency_iter():
+      for nbr,keydict in nbrsdict.items():
         for key,eattr in keydict.items():
           eattr['flow'] = 0
           eattr['t_a'] = eattr['t_0']
           eattr['capacity'] = eattr['capacity_0']
           eattr['distance'] = eattr['distance_0']
-      else:
-        keydict['flow'] = 0
-        keydict['t_a'] = keydict['t_0']
-        keydict['capacity'] = keydict['capacity_0']
-        keydict['distance'] = keydict['distance_0']
-
+  else:
+    for n,nbrsdict in G.adjacency_iter():
+      for key,eattr in nbrsdict.items():
+        eattr['flow'] = 0
+        eattr['t_a'] = eattr['t_0']
+        eattr['capacity'] = eattr['capacity_0']
+        eattr['distance'] = eattr['distance_0']
   return G
 def find_travel_time(G):
   #G is a networkx graph. returns the cumulative travel time of all drivers.
   travel_time = 0
-  for n,nbrsdict in G.adjacency_iter():
-    for nbr,keydict in nbrsdict.items():
-      for key,eattr in keydict.items():
+  is_multi = G.is_multigraph()
+  if is_multi == True:
+    for n,nbrsdict in G.adjacency_iter():
+      for nbr,keydict in nbrsdict.items():
+        for key,eattr in keydict.items():
+          if eattr['flow'] > 0:
+            travel_time += eattr['flow']*eattr['t_a']
+  else:
+    for n,nbrsdict in G.adjacency_iter():
+      for key,eattr in nbrsdict.items():
         if eattr['flow'] > 0:
-          travel_time += eattr['flow']*eattr['t_a']
+          travel_time += eattr['flow'] * eattr['t_a']
   return travel_time
 
 def find_vmt(G):
   #G is a networkx graph. returns the cumulative vehicles miles traveled of all drivers.
   vmt = 0
-  for n,nbrsdict in G.adjacency_iter():
-    for nbr,keydict in nbrsdict.items():
-      for key,eattr in keydict.items():
+  is_multi = G.is_multigraph()
+  if is_multi == True:
+    for n,nbrsdict in G.adjacency_iter():
+      for nbr,keydict in nbrsdict.items():
+        for key,eattr in keydict.items():
+          vmt += eattr['flow']*eattr['distance']
+  else:
+    for n,nbrsdict in G.adjacency_iter():
+      for key,eattr in nbrsdict.items():
         vmt += eattr['flow']*eattr['distance']
   return vmt
 
@@ -72,7 +87,17 @@ def write_2dlist(filename, the_list):
         f.write("%s, " % sub_item)
       f.write("\n")
       
-
+def read_2dlist(filename, delimiter=',', skipheader=False):
+  #returns list of lists where each inner list is a row
+  the_list = []
+  with open(filename,'rb') as f:
+    read_data = f.read().splitlines()
+    if skipheader == True:
+      read_data = read_data[1:]
+    for row in read_data: #[1:]:
+      tokens = row.split(delimiter)
+      the_list.append(tokens)
+  return the_list #list of lists
 if __name__ == '__main__':
   import networkx as nx
   G = nx.MultiDiGraph()

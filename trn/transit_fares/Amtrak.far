@@ -1,0 +1,66 @@
+14641	14643	459	;	San Jose to	Great America
+14641	14644	642	;	San Jose to	Fremont
+14641	14646	795	;	San Jose to	Hayward
+14641	14647	857	;	San Jose to	Coliseum
+14641	14648	918	;	San Jose to	Jack London Square
+14641	14649	979	;	San Jose to	Emeryville
+14641	14650	979	;	San Jose to	Berkeley
+14641	14651	1040	;	San Jose to	Richmond
+14641	14654	1407	;	San Jose to	Martinez
+14641	14655	1652	;	San Jose to	Suisun City
+14641	14658	2369	;	San Jose to	Antioch
+14643	14644	520	;	Great America to	Fremont
+14643	14646	673	;	Great America to	Hayward
+14643	14647	795	;	Great America to	Coliseum
+14643	14648	857	;	Great America to	Jack London Square
+14643	14649	918	;	Great America to	Emeryville
+14643	14650	918	;	Great America to	Berkeley
+14643	14651	979	;	Great America to	Richmond
+14643	14654	1289	;	Great America to	Martinez
+14643	14655	1530	;	Great America to	Suisun City
+14643	14658	2249	;	Great America to	Antioch
+14644	14646	520	;	Fremont to	Hayward
+14644	14647	642	;	Fremont to	Coliseum
+14644	14648	673	;	Fremont to	Jack London Square
+14644	14649	734	;	Fremont to	Emeryville
+14644	14650	795	;	Fremont to	Berkeley
+14644	14651	857	;	Fremont to	Richmond
+14644	14654	1040	;	Fremont to	Martinez
+14644	14655	1407	;	Fremont to	Suisun City
+14644	14658	1887	;	Fremont to	Antioch
+14646	14647	459	;	Hayward to	Coliseum
+14646	14648	520	;	Hayward to	Jack London Square
+14646	14649	642	;	Hayward to	Emeryville
+14646	14650	642	;	Hayward to	Berkeley
+14646	14651	673	;	Hayward to	Richmond
+14646	14654	918	;	Hayward to	Martinez
+14646	14655	1289	;	Hayward to	Suisun City
+14646	14658	1526	;	Hayward to	Antioch
+14647	14648	398	;	Coliseum to	Jack London Square
+14647	14649	490	;	Coliseum to	Emeryville
+14647	14650	520	;	Coliseum to	Berkeley
+14647	14651	642	;	Coliseum to	Richmond
+14647	14654	857	;	Coliseum to	Martinez
+14647	14655	979	;	Coliseum to	Suisun City
+14647	14658	1365	;	Coliseum to	Antioch
+14648	14649	386	;	Jack London Square to	Emeryville
+14648	14650	459	;	Jack London Square to	Berkeley
+14648	14651	551	;	Jack London Square to	Richmond
+14648	14654	773	;	Jack London Square to	Martinez
+14648	14655	979	;	Jack London Square to	Suisun City
+14648	14658	803	;	Jack London Square to	Antioch
+14649	14650	398	;	Emeryville To 	Berkeley
+14649	14651	490	;	Emeryville To 	Richmond
+14649	14654	707	;	Emeryville To 	Martinez
+14649	14655	918	;	Emeryville To 	Suisun City
+14649	14658	803	;	Emeryville To 	Antioch
+14650	14651	459	;	Berkeley to	Richmond
+14650	14654	673	;	Berkeley to	Martinez
+14650	14655	918	;	Berkeley to	Suisun City
+14650	14658	1405	;	Berkeley to	Antioch
+14651	14654	646	;	Richmond to	Martinez
+14651	14655	918	;	Richmond to	Suisun City
+14651	14658	642	;	Richmond to	Antioch
+14654	14655	646	;	Martinez to	Suisun City
+14654	14658	522	;	Martinez to	Antioch
+14655	14658	1405	;	Suisun City to	Antioch

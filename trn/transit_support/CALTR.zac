@@ -1,0 +1,124 @@
+;  CALTR.ZAC
+;
+; COMMENT OUT STATIONS NOT IN 1998 NETWORK
+/*
+Use ZONEACCESS control to create mode 5 walk access walk funnel links
+*/
+
+; TRANSBAY TERMINAL Caltrain
+ZONEACCESS link=14454-13654 mode=5
+
+; Fourth/Townsend Caltrain
+ZONEACCESS link=14455-13655 mode=5
+
+; 23rd Street Caltrain
+ZONEACCESS link=14456-13656 mode=5
+
+; Paul Avenue Caltrain
+ZONEACCESS link=14457-13657 mode=5
+
+; Bayshore Caltrain
+ZONEACCESS link=14458-13658 mode=5
+
+; South San Francisco Caltrain
+ZONEACCESS link=14459-13659 mode=5
+
+; San Bruno Caltrain
+ZONEACCESS link=14460-13660 mode=5
+
+; Millbrae Caltrain
+ZONEACCESS link=14461-13661 mode=5
+
+; Broadway Caltrain
+ZONEACCESS link=14462-13662 mode=5
+
+; Burlingame Caltrain
+ZONEACCESS link=14463-13663 mode=5
+
+; San Mateo Caltrain
+ZONEACCESS link=14464-13664 mode=5
+
+; Hayward Park Caltrain
+ZONEACCESS link=14465-13665 mode=5
+
+; Bay Meadows Caltrain
+
+; Hillsdale Caltrain
+ZONEACCESS link=14467-13667 mode=5
+
+; Belmont Caltrain
+ZONEACCESS link=14468-13668 mode=5
+
+; San Carlos Caltrain
+ZONEACCESS link=14469-13669 mode=5
+
+; Redwood City Caltrain
+ZONEACCESS link=14470-13670 mode=5
+
+; Atherton Caltrain
+ZONEACCESS link=14471-13671 mode=5
+
+; Menlo Park Caltrain
+ZONEACCESS link=14472-13672 mode=5
+
+; Palo Alto Caltrain 
+ZONEACCESS link=14473-13673 mode=5
+
+; Stanford Stadium Caltrain
+
+; California Avenue Caltrain
+ZONEACCESS link=14475-13675 mode=5
+
+; San Antonio Caltrain
+ZONEACCESS link=14476-13676 mode=5
+
+; Mountain View Caltrain 
+ZONEACCESS link=14477-13677 mode=5
+
+; Sunnyvale Caltrain
+ZONEACCESS link=14478-13678 mode=5
+
+; Lawrence Caltrain
+ZONEACCESS link=14479-13679 mode=5
+
+; Santa Clara Caltrain 
+ZONEACCESS link=14480-13680 mode=5
+
+; College Park Caltrain 
+ZONEACCESS link=14481-13681 mode=5
+
+; San Jose Caltrain 
+ZONEACCESS link=14482-13682 mode=5
+
+; Tamien Caltrain 
+ZONEACCESS link=14483-13683 mode=5
+
+; Capitol Caltrain 
+ZONEACCESS link=14484-13684 mode=5
+
+; Blossom Hill CalTrain
+ZONEACCESS link=14485-13685 mode=5
+
+; Morgan Hill CalTrain
+ZONEACCESS link=14486-13686 mode=5
+
+; San Martin CalTrain
+ZONEACCESS link=14487-13687 mode=5
+
+; Gilroy CalTrain
+ZONEACCESS link=14488-13688 mode=5
+
+; Union City DB Rail
+ZONEACCESS link=15737-15735 mode=5
+
+; Newark DB Rail
+ZONEACCESS link=15742-15740 mode=5
+
+; Chilco Rd. DB Rail
+ZONEACCESS link=15747-15745 mode=5
+
+; Fremont DB Rail
+ZONEACCESS link=15752-15750 mode=5
+
+; Oakdale Caltrain 
+ZONEACCESS link=16005-16000 mode=5

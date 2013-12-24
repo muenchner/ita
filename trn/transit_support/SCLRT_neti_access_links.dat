@@ -1,0 +1,98 @@
+12567 11400   ; Old Ironsides LRT Access node   
+5437 11401    ; Great America LRT Access node   **This file updated with new nodes for RVAL 2000. 8/23. SI.
+5679 11402    ; Lick Mill LRT Access node
+5793 10503    ; Champion LRT Access node
+5793 11403    ; Tasman LRT Access node
+4257 11304    ; River Oaks LRT PNR
+4257 11404    ; River Oaks LRT Access node
+4258 11405    ; Orchard LRT Access node
+5705 11406    ; Bonaventura LRT Access node
+4277 11407    ; Component LRT Access node
+5693 11408    ; Karina LRT Access node
+5267 11409    ; Metro/Airport LRT Access node
+5289 11410    ; Gish LRT Access node
+5067 11411    ; Civic Center LRT Access node
+5069 11412    ; Ayer Street/Japantown LRT Access node
+4982 11413    ; St. James LRT Access node
+4968 11414    ; Santa Clara LRT Access node
+4956 11415    ; Paseo de San Antonio LRT Access node
+5171 11416    ; Convention Center LRT Access node
+5188 11417    ; Children's Discovery Museum LRT Access node
+4912 11418    ; Virginia LRT Access node
+4930 11419    ; Tamien LRT Light Rail/Caltrain Access node
+4930 10519    ; Tamien LRT Light Rail/Caltrain PNR
+4490 11420    ; Curtner LRT Access node
+4490 10580    ; Curtner LRT PNR
+4352 11421    ; Capitol LRT Access node
+4352 10581    ; Capitol LRT PNR
+5554 11422    ; Branham LRT Access node
+5554 10582    ; Branham LRT PNR
+4656 11423    ; Ohlone/Chynoweth LRT Access node
+4656 10583    ; Ohlone/Chynoweth LRT PNR
+4709 11424    ; Oakridge LRT Access node
+;4709 10584    ; Oakridge LRT PNR
+5375 11425    ; Almaden LRT Access node
+5375 10585    ; Almaden LRT PNR
+4427 11426    ; Blossom Hill LRT Access node
+4427 10586    ; Blossom Hill LRT PNR
+4312 11427    ; Snell LRT Access node
+4312 10587    ; Snell LRT PNR
+4628 11428    ; Cottle LRT Access node
+4628 10588    ; Cottle LRT PNR
+6033 11429    ; Santa Teresa LRT Access node
+6033 10589    ; Santa Teresa LRT PNR 
+5097 11384    ; I-880/Milpitas Station Access node
+5097 11484    ; I-880/Milpitas Station PNR
+4251 11383    ; Baypointe LRT Access node
+4195 11399    ; Reamwood LRT Access node
+5651 11398    ; Vienna LRT Access node
+5652 11397    ; Fair Oaks LRT Access node
+4190 11396    ; Crossman LRT Access node
+4191 11395    ; Borregas LRT Access node
+5833 11394    ; Lockheed LRT Access node
+4148 11393    ; Bayshore/NASA LRT Access node
+5509 11392    ; Middlefield LRT Access node
+5582 11391    ; Whisman LRT Access node
+5582 11291    ; Whisman PNR
+5593 11390    ; Evelyn LRT Access node
+5524 11390    ; Evelyn LRT Access node
+5593 11490    ; Evelyn PNR
+5524 11490    ; Evelyn PNR
+5639 11489    ; Mtn. View LRT Access node 
+10077 11489    ; Mtn. View LRT PNR 
+5828 13806    ; Moffett Park LRT Access node
+;5828 13807    ; Moffett Park PNR
+12550 15595   ; Hacienda LRT Access Node
+4805 15593   ; Vasona Junction LRT Access Node
+4805 15594   ; Vason Junction PNR
+5208 14795    ; Story LRT Access node
+4740 14796    ; Ocala LRT Access node
+4385 14798    ; Eastridge LRT Access node
+4385 12798    ; Eastrdige PNR
+10311 10930   ; San Jose Airport LRT Access node
+5336 15591    ; Downtown Santa Clara Access Node
+5336 15592    ; Downtown Santa Clara PNR
+5179 10920    ; San Fernando Access Node
+5175 10921    ; San Jose Diridon Access Node
+5175 10801    ; San Jose Diridon PNR
+4895 10923    ; Race St. Access Node
+4859 10924    ; Fruitdale Access Node
+4855 10925    ; Bascom Access Node
+4855 10805    ; Bascom PNR
+4828 10926    ; Hamilton Access Node
+4788 10927    ; Campbell Access Node
+4786 10928    ; Winchester Access Node
+4786 10811    ; Winchester PNR
+4253 13801    ; Cisco Way Access Node
+4371 11385    ; Great Mall/Main Access Node
+4371 11485    ; Great Mall/Main PNR
+5784 11386    ; Montague Access Node
+5758 11387    ; Cropley Access Node
+5742 11388    ; Hostetter Access Node
+5742 11488    ; Hostetter PNR
+5745 11288    ; Berryessa Access Node
+5221 10938    ; Penitencia Creek Access Node
+5221 10808    ; Penitencia Creek PNR
+5232 10939    ; McKee Access Node
+5234 10940    ; Alum Rock Access Node
+5234 10810    ; Alum Rock PNR

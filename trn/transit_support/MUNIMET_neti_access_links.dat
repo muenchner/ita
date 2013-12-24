@@ -1,0 +1,93 @@
+7488 14056       ; Embarcadero  ---- MUNI METRO STREETCAR LINES J, K, L, M, N  ** 4 stops added to N line for 1998 extension to 4th and King
+7499 14056       ; **This file updated with new nodes for RVAL 2000. 8/22. SI.
+7507 14055       ; Montgomery Street
+7509 14055       
+7518 14054       ; Powell Street
+7628 14053       ; Civic Center
+7556 14035       ; Van Ness Muni Metro
+7199 15460       ; Duboce/Church Muni Metro  ---- MUNI METRO STREETCAR LINES J and N
+13561 15484      ; Church/Market Muni Metro  ---- MUNI METRO STREETCAR LINE J
+13562 15485      ; Church/16th Muni Metro
+13563 15487      ; ROW/18th Street Muni Metro
+13564 15490      ; ROW/21st Street Muni Metro
+7152 15495       ; Church/24th Street Muni Metro
+7150 15491       ; Church/Clipper Muni Metro
+7308 15492       ; Church/27th Street Muni Metro
+13582 15493      ; Church/29th Street Muni Metro
+7159 15494       ; Church/30th Street Muni Metro
+13561 15406      ; Church Street Muni Metro Station  ---- MUNI METRO STREETCAR LINES K, L, M
+7201 15407       ; Castro Street Muni Metro Station
+7238 15408       ; Forest Hill Muni Metro Station
+7242 15409       ; West Portal/Ulloa Muni Metro Station
+7243 15410       ; West Portal/14th Avenue Muni Metro Stop  ---- MUNI METRO STREETCAR LINES K and M
+7244 15411       ; St. Francis Circle Muni Metro Stop
+6898 15428       ; Junipero Serra/Ocean Ave. Muni Metro Stop  ---- MUNI METRO STREETCAR LINE K
+6888 15431       ; Ocean Avenue/Cerritos Muni Metro Stop
+7230 15432       ; Ocean Avenue/Victoria Muni Metro Stop
+7225 15434       ; (Western) Ocean/Plymouth Muni Metro Stop
+6884 15435       ; (Eastern) Ocean/Plymouth Muni Metro Stop
+6883 15436       ; Ocean/Phelan Muni Metro Stop
+6846 15437       ; Ocean/San Jose Muni Metro Stop
+6847 14049       ; Balboa Park Muni Metro Stop (/BART Stn)
+7248 15415       ; ROW/Sloat Muni Metro Stop  ---- MUNI METRO STREETCAR LINE M
+7229 15416       ; ROW/Ocean Muni Metro Stop
+6897 15417       ; 19th Avenue/Winston Muni Metro Stop
+6901 15419       ; 19th Avenue/Holloway Muni Metro Stop
+6894 15421       ; 19th Avenue/Junipero Serra Muni Metro Stop
+7236 15423       ; Randolph/Arch Muni Metro Stop
+7235 15424       ; Broad/Orizaba Muni Metro Stop
+13647 15427      ; Broad/Plymouth Muni Metro Stop
+13648 15425      ; San Jose/Farallones Muni Metro Stop
+6847 15426       ; San Jose/Ocean Avenue Muni Metro Stop
+7243 15439       ; Uloa/Forestside Muni Metro Stop  ---- MUNI METRO STREETCAR LINE L
+7247 15440       ; 19th Avenue/Vicente Muni Metro Stop
+7249 15441       ; Taraval/19th Avenue Muni Metro Stop
+7448 15442       ; Taraval/24th Avenue Muni Metro Stop
+13538 15443      ; Taraval/28th Avenue Muni Metro Stop
+7250 15444       ; Taraval/32nd Avenue Muni Metro Stop
+7263 15445       ; Taraval/Sunset Blvd Muni Metro Stop
+7271 15446       ; Taraval/40th Muni Metro Stop
+7269 15447       ; Taraval/46th Avenue Muni Metro Stop
+7266 15448       ; Wawona/46th Avenue Muni Metro Stop
+6982 15449       ; Folsom & Embarcadero Stop   added for 98  ---- MUNI METRO STREETCAR LINE N
+7446 15450       ; Brannan & Embarcadero Stop  added for 98
+7409 15451       ; Second & King Stop          added for 98
+6963 14455       ; Fourth $ King Stop          added for 98
+6952 14541       ; Mission Bay                        added 2025 NP RTP01
+6953 14542       ; UCSF                               added 2025 NP RTP01
+6936 14543       ; Mariposa                           added 2025 NP RTP01
+6941 14544       ; 20th Street                        added 2025 NP RTP01
+6937 14545       ; 23th Street                        added 2025 NP RTP01
+6753 14546       ; Cesar Chavez                       added 2025 NP RTP01
+6755 14547       ; Evans                              added 2025 NP RTP01
+13510 14548      ; Hudson/Lasalle (2 station stops)   added 2025 NP RTP01
+6758 14549       ; Palou                              added 2025 NP RTP01
+6795 14550       ; Williams/Van Dyke                  added 2025 NP RTP01
+13632 14551      ; Carroll                            added 2025 NP RTP01
+6785 14552       ; Gillman/Paul Ave                   added 2025 NP RTP01
+6782 14553       ; Jamestown                          added 2025 NP RTP01
+6738 14554       ; Arleta                             added 2025 NP RTP01
+6740 14555       ; Sunnydale                          added 2025 NP RTP01
+6738 14458       ; Bayshore CalTrain - terminus       added 2025 NP RTP01
+7200 15461       ; Tunnel East Muni Metro Stop
+13553 15462      ; Carl/Cole Muni Metro Stop
+7175 15463       ; Carl/Stanyan Muni Metro Stop
+7176 15466       ; Carl/Hillway Muni Metro Stop
+7233 15469       ; Irving/7th Avenue Muni Metro Stop
+7232 15472       ; Judah/16th Avenue Muni Metro Stop
+7257 15473       ; Judah/19th Avenue Muni Metro Stop
+13519 15475      ; Judah/23rd Avenue Muni Metro Stop
+13536 15476      ; Judah/28th Avenue Muni Metro Stop
+13520 15478      ; Judah/Sunset Blvd. Muni Metro Stop
+13524 15480      ; Judah/40th Avenue Muni Metro Stop
+13521 15482      ; Judah/46th Avenue Muni Metro Stop
+13522 15483      ; Judah/La Playa Muni Metro Stop
+7599 14888       ; Transbay Terminal
+7612 14888       ; Transbay Terminal
+7636 13759       ; Portsmouth SQ     
+13639 13757      ; Kearny & Sacramento
+7526 13755       ; Kearny & Sutter
+7510 13753       ; Market & Geary
+7585 13751       ; 3rd & Mission
+7065 13749       ; 3rd & Folsom
+7051 13747       ; 3rd & Brannan

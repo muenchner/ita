@@ -1,0 +1,37 @@
+; caltr.PNR 
+; Conversion of PNR connectors from 1099 to 1454 zone system. SI. 8/22/2003
+; Parking charges North of Tamien $1.00 (01) = $0.70 (90)
+; Service for 2000 RVAL00
+;**********************
+; Read CALTRAIN PNR's *
+;**********************
+
+PNR NODE=15559-13659 COST=0.70 TIME=2.00 ZONES=1-1454         ; South San Francisco Caltrain
+PNR NODE=15560-13660 COST=0.70 TIME=2.00 ZONES=1-1454         ; San Bruno Caltrain
+PNR NODE=15561-13661 COST=0.70 TIME=1.00 ZONES=1-1454         ; Millbrae Caltrain
+PNR NODE=15562-13662 COST=0.70 TIME=1.00 ZONES=1-1454         ; Broadway Caltrain
+PNR NODE=15563-13663 COST=0.70 TIME=1.00 ZONES=1-1454         ; Burlingame Caltrain
+PNR NODE=15564-13664 COST=0.70 TIME=2.00 ZONES=1-1454         ; San Mateo Caltrain
+PNR NODE=15567-13667 COST=0.70 TIME=2.00 ZONES=1-1454         ; Hillsdale Caltrain
+PNR NODE=15568-13668 COST=0.70 TIME=2.00 ZONES=1-1454         ; Belmont Caltrain
+PNR NODE=15569-13669 COST=0.70 TIME=2.00 ZONES=1-1454         ; San Carlos Caltrain
+PNR NODE=15570-13670 COST=0.70 TIME=2.00 ZONES=1-1454         ; Redwood City Caltrain
+PNR NODE=15571-13671 COST=0.70 TIME=2.00 ZONES=1-1454         ; Atherton Caltrain
+PNR NODE=15572-13672 COST=0.70 TIME=2.00 ZONES=1-1454         ; Menlo Park Caltrain
+PNR NODE=15573-13673 COST=0.70 TIME=2.00 ZONES=1-1454         ; Palo Alto Caltrain 
+PNR NODE=15575-13675 COST=0.70 TIME=4.00 ZONES=1-1454         ; California Avenue Caltrain
+PNR NODE=15577-13677 COST=0.70 TIME=3.00 ZONES=1-1454         ; Mountain View Caltrain 
+PNR NODE=15578-13678 COST=0.70 TIME=3.00 ZONES=1-1454         ; Sunnyvale Caltrain
+PNR NODE=15579-13679 COST=0.70 TIME=2.00 ZONES=1-1454         ; Lawrence Caltrain 
+PNR NODE=15580-13680 COST=0.70 TIME=2.00 ZONES=1-1454         ; Santa Clara Caltrain 
+PNR NODE=15582-13682 COST=0.70 TIME=2.00 ZONES=1-1454         ; San Jose Caltrain 
+PNR NODE=15583-13683 COST=0.70 TIME=2.00 ZONES=1-1454         ; Tamien Caltrain 
+PNR NODE=15584-13684 COST=0.70 TIME=4.00 ZONES=1-1454         ; Capitol Caltrain 
+PNR NODE=15585-13685 COST=0.70 TIME=2.00 ZONES=1-1454         ; Blossom Hill CalTrain
+PNR NODE=15586-13686 COST=0.70 TIME=2.00 ZONES=1-1454         ; Morgan Hill CalTrain
+PNR NODE=15587-13687 COST=0.70 TIME=2.00 ZONES=1-1454         ; San Martin CalTrain
+PNR NODE=15588-13688 COST=0.70 TIME=2.00 ZONES=1-1454         ; Gilroy CalTrain
+PNR NODE=15736-15735 COST=0.70 TIME=2.00 ZONES=1-1454         ; Union City DB Rail
+PNR NODE=15741-15740 COST=0.70 TIME=2.00 ZONES=1-1454         ; Newark DB Rail
+PNR NODE=15746-15745 COST=0.70 TIME=2.00 ZONES=1-1454         ; Chilco Rd. DB Rail
+PNR NODE=15751-15750 COST=0.70 TIME=2.00 ZONES=1-1454         ; Fremont

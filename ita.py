@@ -4,6 +4,7 @@
 #this code does iterative travel assignment.
 import sys, util
 import networkx as nx
+import pdb
 
 iteration_vals = [0.4, 0.3, 0.2, 0.1] #assign od vals in this amount per iteration
 
@@ -18,8 +19,10 @@ class ITA:
     for i in range(4): #do 4 iterations
       for origin in self.demand.keys():
         #find the shortest paths from this origin to each destination
+        # print origin
         paths_dict = nx.single_source_dijkstra_path(self.G, origin, cutoff = None, weight = 't_a') #Compute shortest path between source and all other reachable nodes for a weighted graph. Returns dict keyed by by target with the value being a list of node ids of the shortest path
         for destination in self.demand[origin].keys():
+          # print destination
           od_flow = iteration_vals[i] * self.demand[origin][destination]*0.053 #to get morning flows, take 5.3% of daily driver values. 11.5/(4.5*6+11.5*10+14*4+4.5*4) from Figure S10 of http://www.nature.com/srep/2012/121220/srep01001/extref/srep01001-s1.pdf
           #get path
           path_list = paths_dict[destination] #list of nodes
@@ -28,27 +31,42 @@ class ITA:
           for index in range(0, len(path_list) - 1):
             u = path_list[index]
             v = path_list[index + 1]
-            num_multi_edges =  len( self.G[u][v])
-            if num_multi_edges >1: #multi-edge
-              #identify multi edge with lowest t_a
-              best = 0
-              best_t_a = float('inf')
-              for multi_edge in self.G[u][v].keys():
-                new_t_a = self.G[u][v][multi_edge]['t_a']
-                if (new_t_a < best_t_a) and (self.G[u][v][multi_edge]['capacity']>0):
-                  best = multi_edge
-                  best_t_a = new_t_a
+            
+            if self.G.is_multigraph():
+              num_multi_edges =  len( self.G[u][v]) #if not multigraph, this just returns the number of edge attributes
+              if num_multi_edges >1: #multi-edge
+                # print 'multiedge: ', num_multi_edges
+                #identify multi edge with lowest t_a
+                best = 0
+                best_t_a = float('inf')
+                # print self.G[u][v].keys()
+                for multi_edge in self.G[u][v].keys():
+                  new_t_a = self.G[u][v][multi_edge]['t_a'] #causes problems
+                  if (new_t_a < best_t_a) and (self.G[u][v][multi_edge]['capacity']>0):
+                    best = multi_edge
+                    best_t_a = new_t_a
+              else:
+                best = 0
+              if (self.G[u][v][best]['capacity']>0):
+                # print 'adding flow'
+                self.G[u][v][best]['flow'] += od_flow
+                t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
+                travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (1hr / 3600s)
+                if travel_time > self.G[u][v][best]['distance_0']*3600:
+                  print travel_time
+                  print 'and 1mph: ', self.G[u][v][best]['distance_0']*3600
+                self.G[u][v][best]['t_a'] = travel_time
             else:
-              best = 0
-            if (self.G[u][v][best]['capacity']>0):
-              self.G[u][v][best]['flow'] += od_flow
-              t = util.TravelTime(self.G[u][v][best]['t_0'], self.G[u][v][best]['capacity'])
-              travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (1hr / 3600s)
-              if travel_time > self.G[u][v][best]['distance_0']*3600:
-                print travel_time
-                print 'and 1mph: ', self.G[u][v][best]['distance_0']*3600
-              self.G[u][v][best]['t_a'] = travel_time
-
+              if (self.G[u][v]['capacity']>0):
+                # print 'adding flow'
+                self.G[u][v]['flow'] += od_flow
+                t = util.TravelTime(self.G[u][v]['t_0'], self.G[u][v]['capacity'])
+                travel_time= t.get_new_travel_time(od_flow) #TODO #min(t.get_new_travel_time(od_flow), self.G[u][v][best]['distance_0']*1.0/3600.0) #distance in miles, t_a in seconds!! So we are saying that the minimum of the t_a and distance (in miles) * (1 hr/ 1 mile) * (1hr / 3600s)
+                if travel_time > self.G[u][v]['distance_0']*3600: #if going less than 1mph, 
+                  print travel_time
+                  print 'and 1mph: ', self.G[u][v]['distance_0']*3600
+                  # travel_time = self.G[u][v]['distance_0']*3600 #override the value. Caution!!
+                self.G[u][v]['t_a'] = travel_time
     return self.G
 
       

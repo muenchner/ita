@@ -1,0 +1,51 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow9289extensive.net
+	CTIM = FFT 
+	if (a = 8282 & b = 8284) CAPCLASS = 62
+	if (a = 8282 & b = 8284) SPDCLASS = 62
+	if (a = 8284 & b = 8282) CAPCLASS = 62
+	if (a = 8284 & b = 8282) SPDCLASS = 62
+	if (a = 3478 & b = 3437) CAPCLASS = 62
+	if (a = 3478 & b = 3437) SPDCLASS = 62
+	if (a = 3500 & b = 3478) CAPCLASS = 62
+	if (a = 3500 & b = 3478) SPDCLASS = 62
+	if (a = 3497 & b = 3571) CAPCLASS = 62
+	if (a = 3497 & b = 3571) SPDCLASS = 62
+	if (a = 3571 & b = 3497) CAPCLASS = 62
+	if (a = 3571 & b = 3497) SPDCLASS = 62
+	if (a = 9248 & b = 20001) CAPCLASS = 62
+	if (a = 9248 & b = 20001) SPDCLASS = 62
+	if (a = 2133 & b = 2139) CAPCLASS = 62
+	if (a = 2133 & b = 2139) SPDCLASS = 62
+	if (a = 2138 & b = 2132) CAPCLASS = 62
+	if (a = 2138 & b = 2132) SPDCLASS = 62
+	if (a = 9243 & b = 9244) CAPCLASS = 62
+	if (a = 9243 & b = 9244) SPDCLASS = 62
+	if (a = 6567 & b = 6491) CAPCLASS = 62
+	if (a = 6567 & b = 6491) SPDCLASS = 62
+	if (a = 11972 & b = 11973) CAPCLASS = 62
+	if (a = 11972 & b = 11973) SPDCLASS = 62
+	if (a = 11974 & b = 11975) CAPCLASS = 62
+	if (a = 11974 & b = 11975) SPDCLASS = 62
+	if (a = 10523 & b = 11852) CAPCLASS = 62
+	if (a = 10523 & b = 11852) SPDCLASS = 62
+	if (a = 11852 & b = 10523) CAPCLASS = 62
+	if (a = 11852 & b = 10523) SPDCLASS = 62
+	if (a = 11852 & b = 11885) CAPCLASS = 62
+	if (a = 11852 & b = 11885) SPDCLASS = 62
+	if (a = 11885 & b = 11852) CAPCLASS = 62
+	if (a = 11885 & b = 11852) SPDCLASS = 62
+	if (a = 11849 & b = 11851) CAPCLASS = 62
+	if (a = 11849 & b = 11851) SPDCLASS = 62
+	if (a = 11850 & b = 11848) CAPCLASS = 62
+	if (a = 11850 & b = 11848) SPDCLASS = 62
+	if (a = 12267 & b = 2033) CAPCLASS = 62
+	if (a = 12267 & b = 2033) SPDCLASS = 62
+	if (a = 2129 & b = 2092) CAPCLASS = 62
+	if (a = 2129 & b = 2092) SPDCLASS = 62
+	if (a = 2019 & b = 2031) CAPCLASS = 62
+	if (a = 2019 & b = 2031) SPDCLASS = 62
+	if (a = 2031 & b = 2019) CAPCLASS = 62
+	if (a = 2031 & b = 2019) SPDCLASS = 62
+endrun 

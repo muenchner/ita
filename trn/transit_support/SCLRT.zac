@@ -1,0 +1,238 @@
+;  SCLRT.ZAC
+;
+; Updated for year 2000 by VTA
+/*
+Use ZONEACCESS control to create mode 5 walk access walk funnel links
+*/
+
+;-------------------------------------------
+; Mountain View to Winchester
+;-------------------------------------------
+
+; Mtn View SCLRT Station
+ZONEACCESS link=11489-13689 mode=5
+
+; Evelyn SCLRT Station
+ZONEACCESS link=11390-13690 mode=5
+
+; Whisman  SCLRT Station
+ZONEACCESS link=11391-13691 mode=5
+
+; Middlefield SCLRT Station
+ZONEACCESS link=11392-13692 mode=5
+
+; Bayshore/NASA SCLRT Station
+ZONEACCESS link=11393-13693 mode=5
+
+; Moffet Park SCLRT Station
+ZONEACCESS link=13806-13805 mode=5
+
+; Lockheed Martin SCLRT Station
+ZONEACCESS link=11394-13694 mode=5
+
+; Borregas SCLRT Station
+ZONEACCESS link=11395-13695 mode=5
+
+; Crossman SCLRT Station
+ZONEACCESS link=11396-13696 mode=5
+
+; Fair Oaks SCLRT Station
+ZONEACCESS link=11397-13697 mode=5
+
+; Vienna SCLRT Station
+ZONEACCESS link=11398-13698 mode=5
+
+; Reamwood SCLRT Station
+ZONEACCESS link=11399-13699 mode=5
+
+; Old Ironsides SCLRT Station
+ZONEACCESS link=11400-13700 mode=5
+
+; Great America SCLRT Station
+ZONEACCESS link=11401-13701 mode=5
+
+; Lick Mill SCLRT Station
+ZONEACCESS link=11402-13702 mode=5
+
+; Champion SCLRT Station
+ZONEACCESS link=10503-13789 mode=5
+
+; Tasman SCLRT Station
+ZONEACCESS link=11403-13703 mode=5
+
+; River Oaks SCLRT Station
+ZONEACCESS link=11404-13704 mode=5
+
+; Orchard SCLRT Station
+ZONEACCESS link=11405-13705 mode=5
+
+; Bonaventura SCLRT Station
+ZONEACCESS link=11406-13706 mode=5
+
+; Component SCLRT Station
+ZONEACCESS link=11407-13707 mode=5
+
+; Karina SCLRT Station
+ZONEACCESS link=11408-13708 mode=5
+
+; Metro/Airport SCLRT Station
+ZONEACCESS link=11409-13709 mode=5
+
+; Gish SCLRT Station
+ZONEACCESS link=11410-13710 mode=5
+
+; Civic Center SCLRT Station
+ZONEACCESS link=11411-13711 mode=5
+
+; Japantown/Ayer SCLRT Station
+ZONEACCESS link=11412-13712 mode=5
+
+; St. James SCLRT Station
+ZONEACCESS link=11413-13713 mode=5
+
+; Santa Clara SCLRT Station
+ZONEACCESS link=11414-13714 mode=5
+
+; Paseo de San Antonio SCLRT Station
+ZONEACCESS link=11415-13715 mode=5
+
+; Convention Center SCLRT Station
+ZONEACCESS link=11416-13716 mode=5
+
+; San Fernando
+ZONEACCESS link=10920-10900 mode=5
+
+; San Jose Diridon
+ZONEACCESS link=10921-10901 mode=5
+
+; Race Street
+ZONEACCESS link=10923-10903 mode=5
+
+; Fruitdale
+ZONEACCESS link=10924-10904 mode=5
+
+; Bascom   
+ZONEACCESS link=10925-10905 mode=5
+
+; Hamilton 
+ZONEACCESS link=10926-10906 mode=5
+
+; Downtown Campbell  
+ZONEACCESS link=10927-10907 mode=5
+
+; Winchester  
+ZONEACCESS link=10928-10911 mode=5
+
+
+;-------------------------------------------
+; Alum Rock to Santa Teresa
+;-------------------------------------------
+
+; Alum Rock
+ZONEACCESS link=10940-10910 mode=5
+
+; McKee
+ZONEACCESS link=10939-10909 mode=5
+
+; Penitencia Creek
+ZONEACCESS link=10938-10908 mode=5
+
+; Berryessa
+ZONEACCESS link=11288-13782 mode=5
+
+; Hostetter
+ZONEACCESS link=11388-13788 mode=5
+
+; Cropley
+ZONEACCESS link=11387-13787 mode=5
+
+; Montague Station
+ZONEACCESS link=11386-13786 mode=5
+
+; Great Mall/Main St. Station
+ZONEACCESS link=11385-13785 mode=5
+
+; I-880/Milpitas Station
+ZONEACCESS link=11384-13784 mode=5
+
+; Cisco Way Station
+ZONEACCESS link=13801-13800 mode=5
+
+; Baypointe SCLRT Station
+ZONEACCESS link=11383-13783 mode=5
+
+; Children's Discovery Museum SCLRT Station
+ZONEACCESS link=11417-13717 mode=5
+
+; Virginia SCLRT Station
+ZONEACCESS link=11418-13718 mode=5
+
+; Tamien SCLRT Light Rail/Caltrain Station
+ZONEACCESS link=11419-13719 mode=5
+
+; Curtner SCLRT Station
+ZONEACCESS link=11420-13720 mode=5
+
+; Capitol SCLRT Station
+ZONEACCESS link=11421-13721 mode=5
+
+; Branham SCLRT Station
+ZONEACCESS link=11422-13722 mode=5
+
+; Ohlone/Chynoweth SCLRT Station
+ZONEACCESS link=11423-13723 mode=5
+
+; Blossom Hill SCLRT Station
+ZONEACCESS link=11426-13726 mode=5
+
+; Snell SCLRT Station
+ZONEACCESS link=11427-13727 mode=5
+
+; Cottle SCLRT Station
+ZONEACCESS link=11428-13728 mode=5
+
+; Santa Teresa SCLRT Station
+ZONEACCESS link=11429-13729 mode=5
+
+;-------------------------------------------
+; Almaden to Ohlone/Chynoweth
+;-------------------------------------------
+
+; Oakridge SCLRT Station
+ZONEACCESS link=11424-13724 mode=5
+
+; Almaden SCLRT Station
+ZONEACCESS link=11425-13725 mode=5
+
+;-------------------------------------------
+; Vasona Extension
+;-------------------------------------------
+
+; Hacienda Station      
+ZONEACCESS link=15595-10912 mode=5
+
+; Vasona Junction Station     
+ZONEACCESS link=15593-10913 mode=5
+
+;-------------------------------------------
+; Capitol Extension
+;-------------------------------------------
+
+;SCVTA LRT Story
+ZONEACCESS link=14795-13795 mode=5
+
+;SCVTA LRT Ocala
+ZONEACCESS link=14796-13796 mode=5
+
+;SCVTA LRT Eastridge
+ZONEACCESS link=14798-13798 mode=5
+
+;-------------------------------------------
+; SJC People Mover SC Caltrain to Metro LRT 
+;-------------------------------------------
+
+; SJ Airport Terminal  
+ZONEACCESS link=10930-14561 mode=5
+
+; Downtown Santa Clara  
+ZONEACCESS link=15591-15590 mode=5

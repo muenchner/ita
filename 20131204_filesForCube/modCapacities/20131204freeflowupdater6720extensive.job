@@ -1,0 +1,63 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow6720extensive.net
+	CTIM = FFT 
+	if (a = 4968 & b = 5166) CAPCLASS = 62
+	if (a = 4968 & b = 5166) SPDCLASS = 62
+	if (a = 4978 & b = 4980) CAPCLASS = 62
+	if (a = 4978 & b = 4980) SPDCLASS = 62
+	if (a = 4980 & b = 4978) CAPCLASS = 62
+	if (a = 4980 & b = 4978) SPDCLASS = 62
+	if (a = 4807 & b = 4761) CAPCLASS = 62
+	if (a = 4807 & b = 4761) SPDCLASS = 62
+	if (a = 9369 & b = 9366) CAPCLASS = 62
+	if (a = 9369 & b = 9366) SPDCLASS = 62
+	if (a = 5073 & b = 5091) CAPCLASS = 62
+	if (a = 5073 & b = 5091) SPDCLASS = 62
+	if (a = 5719 & b = 5042) CAPCLASS = 62
+	if (a = 5719 & b = 5042) SPDCLASS = 62
+	if (a = 9165 & b = 20143) CAPCLASS = 62
+	if (a = 9165 & b = 20143) SPDCLASS = 62
+	if (a = 5720 & b = 5718) CAPCLASS = 62
+	if (a = 5720 & b = 5718) SPDCLASS = 62
+	if (a = 5041 & b = 5043) CAPCLASS = 62
+	if (a = 5041 & b = 5043) SPDCLASS = 62
+	if (a = 9152 & b = 9153) CAPCLASS = 62
+	if (a = 9152 & b = 9153) SPDCLASS = 62
+	if (a = 4909 & b = 4906) CAPCLASS = 62
+	if (a = 4909 & b = 4906) SPDCLASS = 62
+	if (a = 4328 & b = 4898) CAPCLASS = 62
+	if (a = 4328 & b = 4898) SPDCLASS = 62
+	if (a = 4898 & b = 4328) CAPCLASS = 62
+	if (a = 4898 & b = 4328) SPDCLASS = 62
+	if (a = 10091 & b = 9084) CAPCLASS = 62
+	if (a = 10091 & b = 9084) SPDCLASS = 62
+	if (a = 4333 & b = 4577) CAPCLASS = 62
+	if (a = 4333 & b = 4577) SPDCLASS = 62
+	if (a = 4330 & b = 4304) CAPCLASS = 62
+	if (a = 4330 & b = 4304) SPDCLASS = 62
+	if (a = 20132 & b = 10058) CAPCLASS = 62
+	if (a = 20132 & b = 10058) SPDCLASS = 62
+	if (a = 4301 & b = 4332) CAPCLASS = 62
+	if (a = 4301 & b = 4332) SPDCLASS = 62
+	if (a = 4333 & b = 4302) CAPCLASS = 62
+	if (a = 4333 & b = 4302) SPDCLASS = 62
+	if (a = 10091 & b = 10096) CAPCLASS = 62
+	if (a = 10091 & b = 10096) SPDCLASS = 62
+	if (a = 6213 & b = 6463) CAPCLASS = 62
+	if (a = 6213 & b = 6463) SPDCLASS = 62
+	if (a = 6521 & b = 238) CAPCLASS = 62
+	if (a = 6521 & b = 238) SPDCLASS = 62
+	if (a = 4142 & b = 5597) CAPCLASS = 62
+	if (a = 4142 & b = 5597) SPDCLASS = 62
+	if (a = 5597 & b = 4142) CAPCLASS = 62
+	if (a = 5597 & b = 4142) SPDCLASS = 62
+	if (a = 20094 & b = 9357) CAPCLASS = 62
+	if (a = 20094 & b = 9357) SPDCLASS = 62
+	if (a = 5816 & b = 5815) CAPCLASS = 62
+	if (a = 5816 & b = 5815) SPDCLASS = 62
+	if (a = 5596 & b = 5606) CAPCLASS = 62
+	if (a = 5596 & b = 5606) SPDCLASS = 62
+	if (a = 9356 & b = 9358) CAPCLASS = 62
+	if (a = 9356 & b = 9358) SPDCLASS = 62
+endrun 

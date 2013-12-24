@@ -1,0 +1,13 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow2856extensive.net
+	CTIM = FFT 
+	if (a = 11633 & b = 11648) CAPCLASS = 62
+	if (a = 11633 & b = 11648) SPDCLASS = 62
+	if (a = 11648 & b = 11633) CAPCLASS = 62
+	if (a = 11648 & b = 11633) SPDCLASS = 62
+	if (a = 11676 & b = 11719) CAPCLASS = 62
+	if (a = 11676 & b = 11719) SPDCLASS = 62
+	if (a = 11719 & b = 11676) CAPCLASS = 62
+	if (a = 11719 & b = 11676) SPDCLASS = 62
+endrun 

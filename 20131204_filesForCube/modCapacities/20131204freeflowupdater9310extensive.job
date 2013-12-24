@@ -1,0 +1,49 @@
+run pgm = hwynet
+	neti = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow_undamaged.NET
+	neto = D:\mtc_travel_model\2010_nonode_TEST\INPUT\hwy\freeflow9310extensive.net
+	CTIM = FFT 
+	if (a = 5646 & b = 5631) CAPCLASS = 62
+	if (a = 5646 & b = 5631) SPDCLASS = 62
+	if (a = 11764 & b = 11767) CAPCLASS = 62
+	if (a = 11764 & b = 11767) SPDCLASS = 62
+	if (a = 11764 & b = 11763) CAPCLASS = 62
+	if (a = 11764 & b = 11763) SPDCLASS = 62
+	if (a = 11763 & b = 11766) CAPCLASS = 62
+	if (a = 11763 & b = 11766) SPDCLASS = 62
+	if (a = 11767 & b = 11766) CAPCLASS = 62
+	if (a = 11767 & b = 11766) SPDCLASS = 62
+	if (a = 11767 & b = 11765) CAPCLASS = 62
+	if (a = 11767 & b = 11765) SPDCLASS = 62
+	if (a = 11763 & b = 11765) CAPCLASS = 62
+	if (a = 11763 & b = 11765) SPDCLASS = 62
+	if (a = 11762 & b = 11763) CAPCLASS = 62
+	if (a = 11762 & b = 11763) SPDCLASS = 62
+	if (a = 11762 & b = 11767) CAPCLASS = 62
+	if (a = 11762 & b = 11767) SPDCLASS = 62
+	if (a = 4584 & b = 4601) CAPCLASS = 62
+	if (a = 4584 & b = 4601) SPDCLASS = 62
+	if (a = 4601 & b = 4584) CAPCLASS = 62
+	if (a = 4601 & b = 4584) SPDCLASS = 62
+	if (a = 4599 & b = 4600) CAPCLASS = 62
+	if (a = 4599 & b = 4600) SPDCLASS = 62
+	if (a = 4585 & b = 4583) CAPCLASS = 62
+	if (a = 4585 & b = 4583) SPDCLASS = 62
+	if (a = 2037 & b = 2040) CAPCLASS = 62
+	if (a = 2037 & b = 2040) SPDCLASS = 62
+	if (a = 2038 & b = 2089) CAPCLASS = 62
+	if (a = 2038 & b = 2089) SPDCLASS = 62
+	if (a = 2057 & b = 2039) CAPCLASS = 62
+	if (a = 2057 & b = 2039) SPDCLASS = 62
+	if (a = 9248 & b = 20001) CAPCLASS = 62
+	if (a = 9248 & b = 20001) SPDCLASS = 62
+	if (a = 2133 & b = 2139) CAPCLASS = 62
+	if (a = 2133 & b = 2139) SPDCLASS = 62
+	if (a = 2138 & b = 2132) CAPCLASS = 62
+	if (a = 2138 & b = 2132) SPDCLASS = 62
+	if (a = 9243 & b = 9244) CAPCLASS = 62
+	if (a = 9243 & b = 9244) SPDCLASS = 62
+	if (a = 9050 & b = 9056) CAPCLASS = 62
+	if (a = 9050 & b = 9056) SPDCLASS = 62
+	if (a = 5873 & b = 5649) CAPCLASS = 62
+	if (a = 5873 & b = 5649) SPDCLASS = 62
+endrun 
