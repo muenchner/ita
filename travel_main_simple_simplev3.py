@@ -5,8 +5,8 @@ import ita
 import bd
 import util
 import time
-from math import log, exp, fabs
-from random import normalvariate, seed
+from math import log, exp, fabs, erfc
+from random import normalvariate, seed, lognormvariate, random
 from groundTruthHazardjwb import QuakeMaps
 import pickle 
 from get_praveen_results import get_praveen_results
@@ -17,6 +17,8 @@ import transit_to_damage
 import pp # parallel python
 from transit_to_damage import make_bart_dict, make_muni_dict, clear_transit_file, damage_bart, damage_caltrain, damage_muni, damage_vta, set_main_path
 import networkx as nx
+from scipy.stats import norm
+
 #get bridge information
 
 #first load the all-purpose dictionary linking info about the bridges
@@ -24,7 +26,7 @@ with open('input/20130518_master_bridge_dict.pkl','rb') as f:
   master_dict = pickle.load(f) #has 1743 keys. One per highway bridge. (NOT BART)
   '''
   dict with a bridge_key that ranges from 1 to 1889 and then the value is another dictionary with the following keys: 
-    loren_row_number: the row number in Loren Turner's table that has info on all CA bridges
+    loren_row_number: the row number in Loren Turner's table that has info on all CA bridges (where the header line is row 0)
     original_id: the original id (1-1889)
     new_id: the new id that excludes filtered out bridges (1-1743). Bridges are filtered out if a.) no seismic capacity data AND non-transbay bridge or b.) not located by Jessica (no edge list). this id is the new value that is the column number for the lnsa simulations.
     jessica_id: the id number jessica used. it's also the number in arcgis.
@@ -37,7 +39,7 @@ with open('input/20130518_master_bridge_dict.pkl','rb') as f:
     com_lnSa: median lnSa for the complete damage state. the dispersion (beta) for the lognormal distribution is 0.6. (See hazus/mceer method)
     '''
 with open('input/20131212_master_transit_dict.pkl','rb') as f:
-  master_transit_dict = pickle.load(f) #has xx keys. One per BART structure.
+  master_transit_dict = pickle.load(f) #the keys go from 1744 to 3152 One per BART structure. The new_id values go from 1744 to 3152 also!!
 # master_transit_dict = {}
 # with open('input/id_mod_ext_com_beta.csv', 'rb') as f:
 #   for line in f:
@@ -48,6 +50,7 @@ with open('input/20131212_master_transit_dict.pkl','rb') as f:
 #     print master_transit_dict[tokens[0]]
 # with open ('input/20131212_master_transit_dict.pkl', 'wb') as f:
 #   pickle.dump(master_transit_dict, f)
+
 
 def compute_flow(damaged_graph):
   return -1
@@ -137,11 +140,20 @@ def ground_motions(numeps, tolerance, ground_motion_filename):
 def damage_bridges(scenario):
   '''This function damages bridges based on the ground shaking values (demand) and the structural capacity (capacity). It returns a list (could be empty) with damaged bridges'''
   damaged_bridges = []
-  for site in master_dict.keys(): #should be in Matlab indices
-    lnSa = scenario[master_dict[site]['new_id']-1]
-    lnSa_cap = normalvariate(master_dict[site]['ext_lnSa'],0.6) #CHECK THIS
-    if float(lnSa) > float(lnSa_cap):#in the extensive damage state as defined by HAZUS
-      damaged_bridges.append(site)
+  for site in master_dict.keys(): #1-1886 in Matlab indices (start at 1)
+    #after fixing bug
+    lnSa = scenario[master_dict[site]['new_id']-1] #new ids go from 1 to 1743 (Matlab indices (start at 1)). This is truly the natural log (ln) of the spectral acceleration
+    prob = norm.cdf((1/0.6)*(log(exp(lnSa)) - log(master_dict[site]['ext_lnSa'])), 0, 1) #probability between 0 and 1. Above this value is ok. below means bad in the inverse method.
+    val = random()
+    if val < prob: #prob is probability that a real-valued random variable X  will be found at a value less than or equal to x
+      damaged_bridges.append(master_dict[site]['new_id'])#new ids go from 1 to 1743 (Matlab indices (start at 1)).
+      pdb.set_trace()
+    #before fixing bug
+    # lnSa = scenario[master_dict[site]['new_id']-1] #new ids go from 1 to 1743 (Matlab indices (start at 1)). This is truly the natural log (ln) of the spectral acceleration
+    # lnSa_cap = normalvariate(master_dict[site]['ext_lnSa'],0.6) #CHECK THIS. Produces a realization from the normal distribution with mean specified and standard deviation specified
+    # pdb.set_trace()
+    # if float(lnSa) > float(lnSa_cap):#in the extensive damage state as defined by HAZUS
+    #   damaged_bridges.append(site)
   num_damaged_bridges = len(damaged_bridges)
   for site in master_transit_dict.keys(): #bridges 1744 to 3152
     lnSa = scenario[master_transit_dict[site]['new_id']-1]
@@ -223,7 +235,7 @@ def compute_performance_test2():
 
 def main():
   '''can change the number of epsilons below'''
-  seed(0) #set seed
+  seed(0) #set seed 
   simple = False  #simple is just %bridges out, which is computationally efficient
   number_of_highway_bridges = 1743
   numeps = 3 #the number of epsilons
@@ -259,7 +271,7 @@ def main():
 
 
 
-  # # run in SERIES
+  # run in SERIES
   # #---------------------------------------------
   # print 'computing features in series ...'
   # start_time = time.time()
@@ -271,56 +283,56 @@ def main():
   #     eqid_temp = np.array([eqid_list[i] for j in range(len(lon_temp))])
   #     eqid_meta = np.hstack([x for x in [eqid_meta, eqid_temp] if x.size>0])
 
-    # for scenario in lnsas:
-    # print index
-    # #figure out bridge damage for each scenario
-    # damaged_bridges, num_bridges_out = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
-    # bridge_array.append(damaged_bridges)
+  for scenario in lnsas:
+    print index
+    #figure out bridge damage for each scenario
+    damaged_bridges, num_bridges_out = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
+    bridge_array.append(damaged_bridges)
 
-    # #figure out network damage and output Cube files to this effect
-    # G = damage_network(damaged_bridges, G, time.strftime("%Y%m%d")+'_filesForCube/', index)
+    #figure out network damage and output Cube files to this effect
+    G = damage_network(damaged_bridges, G, time.strftime("%Y%m%d")+'_filesForCube/', index)
 
-    # #figure out impact (performance metrics)
-    # flow, shortest_paths, travel_time, vmt = measure_performance(G, damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
-    # travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
-    # G = util.clean_up_graph(G)
-    # index +=1
+    #figure out impact (performance metrics)
+    flow, shortest_paths, travel_time, vmt = measure_performance(G, damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
+    travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
+    G = util.clean_up_graph(G)
+    index +=1
 
-    # # if index%3909 == 0:
-    # if index%100 == 0:
-    #   save_results(bridge_array, travel_index_times, int(index/float(3909)))
+  # if index%3909 == 0:
+  if index%100 == 0:
+    save_results(bridge_array, travel_index_times, int(index/float(3909)))
 
   # #---------------------------------------------
 
-  # run in PARALLEL
-  #---------------------------------------------
-  ppservers = ()    
-  # Creates jobserver with automatically detected number of workers
-  job_server = pp.Server(ppservers=ppservers)
-  print "Starting pp with", job_server.get_ncpus(), "workers"
-  # compute all Tweet features in parallel
-  print 'computing features ...'
-  start_time = time.time()
-  # set up jobs
-  jobs = []
-  for i in range(len(lnsas)):
-    jobs.append(job_server.submit(compute_performance, (lnsas[i], 0, index, demand, no_damage_travel_time, no_damage_vmt, ), modules = ('networkx', ))) # functions, modules
-    # jobs.append(job_server.submit(compute_performance_test, (lnsas[i]))) # functions, modules
-    # jobs.append(job_server.submit(compute_performance_test, (lnsas[i], )))
-  # get results
-  if len(jobs) != len(lnsas):
-    pdb.set_trace() # error checking!
-  index = 0
-  for job in jobs:
-    (damaged_bridges, num_bridges_out, flow, shortest_paths, travel_time, vmt) = job()
-    # vmt = job()
-    bridge_array.append(damaged_bridges)
-    travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
-    if index%3909 == 0:
-      save_results(bridge_array, travel_index_times, int(index/float(3909)))
-    index += 1
+  # # run in PARALLEL
+  # #---------------------------------------------
+  # ppservers = ()    
+  # # Creates jobserver with automatically detected number of workers
+  # job_server = pp.Server(ppservers=ppservers)
+  # print "Starting pp with", job_server.get_ncpus(), "workers"
+  # # compute all Tweet features in parallel
+  # print 'computing features ...'
+  # start_time = time.time()
+  # # set up jobs
+  # jobs = []
+  # for i in range(len(lnsas)):
+  #   jobs.append(job_server.submit(compute_performance, (lnsas[i], 0, index, demand, no_damage_travel_time, no_damage_vmt, ), modules = ('networkx', ))) # functions, modules
+  #   # jobs.append(job_server.submit(compute_performance_test, (lnsas[i]))) # functions, modules
+  #   # jobs.append(job_server.submit(compute_performance_test, (lnsas[i], )))
+  # # get results
+  # if len(jobs) != len(lnsas):
+  #   pdb.set_trace() # error checking!
+  # index = 0
+  # for job in jobs:
+  #   (damaged_bridges, num_bridges_out, flow, shortest_paths, travel_time, vmt) = job()
+  #   # vmt = job()
+  #   bridge_array.append(damaged_bridges)
+  #   travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
+  #   if index%3909 == 0:
+  #     save_results(bridge_array, travel_index_times, int(index/float(3909)))
+  #   index += 1
 
-  #---------------------------------------------
+  # #---------------------------------------------
   save_results(bridge_array, travel_index_times, int(index/float(3909)))
   
   # test(numeps, lnsas, damaged_bridges, damaged_graph, num_bridges_out, flow, shortest_paths, travel_time, vmt)

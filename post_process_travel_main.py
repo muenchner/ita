@@ -4,6 +4,7 @@ Date: this file takes the bridge results and then gets them ready for a run in c
 import pickle, string, time, pdb, os
 import networkx as nx
 
+import util
 from travel_main_simple_simplev3 import damage_highway_network, damage_transit_network
 
 with open('input/20130518_master_bridge_dict.pkl','rb') as f:
@@ -43,13 +44,27 @@ def post_process_bridges(bridge_list, G, index):
 	#transit damage
 	damage_transit_network(bridge_list, cube_folder_path, index)
 
+def retrofit(bridge_list, holy_bridges):
+	new_list = []
+	for bridge in bridge_list:
+		if int(bridge) not in holy_bridges:
+			new_list.append(bridge)
+	return new_list
+
 def main():
+	# holy_bridges = [1036, 991, 986, 483, 596,  692, 1095, 1193, 1520, 1322, 832, 1039, 1103, 1228,   663,  423,  914,  1015, 1378, 1102] #bridges for which we assume no damage. indices start at 1
+	# holy_bridges = util.read_list('/Users/mahalia/Documents/matlab/research/Herbst2011/output_data/20140113_top435.txt')
+	# holy_bridges = [int(b) for b in holy_bridges]
+	holy_bridges = []
+	print 'We are considering that this many bridges will not fail: ', len(holy_bridges)
 	G = nx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle")
 
 	with open('20131212_1eps_damagedBridges2.pkl', 'rb') as f:
-		bridge_array = pickle.load(f)
+		bridge_array = pickle.load(f) #lists of dmaged bridges by scenario. indices start at 1 (matlab indices)
 
+	# with open('/Users/mahalia/Documents/matlab/research/Herbst2011/output_data/20131212_25_scenario_indices_python_indices.txt', 'rb') as f:
 	with open('/Users/mahalia/Documents/matlab/research/Herbst2011/output_data/20131212_25_scenario_indices_python_indices.txt', 'rb') as f:
+		TODO
 		scenario_indices = f.readlines()
 	scenario_indices = intize_list(scenario_indices)
 
@@ -81,12 +96,19 @@ def main():
 	new_bridge_array = [bridge_array[i] for i in scenario_indices]
 	index = 0
 	for scenario in new_bridge_array:
-		post_process_bridges(intize_list(scenario), G, scenario_indices[index])
+		if 692 in scenario:
+			print 'wooooo: ', index
+		retrofitted_scenario = retrofit(intize_list(scenario), holy_bridges)
+		post_process_bridges(retrofitted_scenario, G, scenario_indices[index])
 		index +=1
 
 
 
 	# pdb.set_trace()
+
+def test():
+	holy_bridges = [1,2,3]
+	print retrofit([1,1,5,6,7], holy_bridges)
 
 if __name__ == '__main__':
 	main()

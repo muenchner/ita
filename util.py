@@ -86,7 +86,18 @@ def write_2dlist(filename, the_list):
       for sub_item in item:
         f.write("%s, " % sub_item)
       f.write("\n")
-      
+
+def read_list(filename, skipheader=False):
+  #returns list of lists where each inner list is a row
+  the_list = []
+  with open(filename,'rb') as f:
+    read_data = f.read().splitlines()
+    if skipheader == True:
+      read_data = read_data[1:]
+    for row in read_data: #[1:]:
+      the_list.append(row)
+  return the_list #list 
+
 def read_2dlist(filename, delimiter=',', skipheader=False):
   #returns list of lists where each inner list is a row
   the_list = []
@@ -98,6 +109,7 @@ def read_2dlist(filename, delimiter=',', skipheader=False):
       tokens = row.split(delimiter)
       the_list.append(tokens)
   return the_list #list of lists
+
 if __name__ == '__main__':
   import networkx as nx
   G = nx.MultiDiGraph()
