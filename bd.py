@@ -2,6 +2,7 @@
 #Date: Jan. 21, 2013
 
 def build_demand(trip_filename, centroid_filename):
+  '''demand dict has keys of actual nodes (one per travel district)'''
   demand_dict = {}
   sd_dict = {}
   with open(centroid_filename,'rb') as f:
@@ -9,7 +10,7 @@ def build_demand(trip_filename, centroid_filename):
     for row in read_data[1:]:
       tokens = row.split(',')
       sd_dict[str(int(tokens[0]))] =  str(int(tokens[2]))
-      demand_dict[str(int(tokens[2]))] = {}
+      demand_dict[str(int(tokens[2]))] = {} #demand_dict[A] is important for line 19 below where we assign travel from origin to destination
 
   with open(trip_filename,'rb') as f:
     read_data = f.read().splitlines()

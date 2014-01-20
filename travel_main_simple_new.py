@@ -16,7 +16,7 @@ import networkx as nx
 #get bridge information
 
 #first load the all-purpose dictionary linking info about the bridges
-with open('input/20130518_master_bridge_dict.pkl','rb') as f:
+with open('input/20130114_master_bridge_dict.pkl','rb') as f:
   master_dict = pickle.load(f)
 
 BRIDGE_DAMAGE_DATASET = [] # in matlab indices (start at 1)

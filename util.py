@@ -2,7 +2,8 @@
 #Date: Jan. 21, 2012, i.e. date of Obama's second inauguration 
 
 #import networkx as nx
-
+import pdb
+import math
 class TravelTime:
   alpha = 0.15
   beta = 4
@@ -45,11 +46,15 @@ def find_travel_time(G):
         for key,eattr in keydict.items():
           if eattr['flow'] > 0:
             travel_time += eattr['flow']*eattr['t_a']
+            # if math.isinf(travel_time):
+            #   pdb.set_trace()
   else:
     for n,nbrsdict in G.adjacency_iter():
       for key,eattr in nbrsdict.items():
         if eattr['flow'] > 0:
           travel_time += eattr['flow'] * eattr['t_a']
+          # if math.isinf(travel_time):
+          #   pdb.set_trace()
   return travel_time
 
 def find_vmt(G):
@@ -64,7 +69,10 @@ def find_vmt(G):
   else:
     for n,nbrsdict in G.adjacency_iter():
       for key,eattr in nbrsdict.items():
-        vmt += eattr['flow']*eattr['distance']
+        try:
+          vmt += eattr['flow']*eattr['distance']
+        except:
+          pdb.set_trace()
   return vmt
 
 def compute_delay(travel_time, undamaged_travel_time = None):
@@ -88,9 +96,9 @@ def write_2dlist(filename, the_list):
       f.write("\n")
 
 def read_list(filename, skipheader=False):
-  #returns list of lists where each inner list is a row
+  #returns list of lists where each inner list is a value
   the_list = []
-  with open(filename,'rb') as f:
+  with open(filename,'rU') as f:
     read_data = f.read().splitlines()
     if skipheader == True:
       read_data = read_data[1:]
@@ -101,7 +109,7 @@ def read_list(filename, skipheader=False):
 def read_2dlist(filename, delimiter=',', skipheader=False):
   #returns list of lists where each inner list is a row
   the_list = []
-  with open(filename,'rb') as f:
+  with open(filename,'rU') as f:
     read_data = f.read().splitlines()
     if skipheader == True:
       read_data = read_data[1:]

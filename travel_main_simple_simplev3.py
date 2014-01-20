@@ -1,28 +1,25 @@
 #Author: Mahalia Miller
 #Date: Jan. 21, 2013
 
+
+import time, random, pickle, pdb, string, os, pp
+from math import log, exp, fabs, erfc
+import networkx as nx
+from scipy.stats import norm
+from random  import seed
+
 import ita
 import bd
 import util
-import time
-from math import log, exp, fabs, erfc
-from random import normalvariate, seed, lognormvariate, random
-from groundTruthHazardjwb import QuakeMaps
-import pickle 
-from get_praveen_results import get_praveen_results
-import pdb
-import string
-import os
-import transit_to_damage
-import pp # parallel python
 from transit_to_damage import make_bart_dict, make_muni_dict, clear_transit_file, damage_bart, damage_caltrain, damage_muni, damage_vta, set_main_path
-import networkx as nx
-from scipy.stats import norm
+import transit_to_damage
+from get_praveen_results import get_praveen_results
+from groundTruthHazardjwb import QuakeMaps
 
 #get bridge information
 
 #first load the all-purpose dictionary linking info about the bridges
-with open('input/20130518_master_bridge_dict.pkl','rb') as f:
+with open('input/20130114_master_bridge_dict.pkl','rb') as f:
   master_dict = pickle.load(f) #has 1743 keys. One per highway bridge. (NOT BART)
   '''
   dict with a bridge_key that ranges from 1 to 1889 and then the value is another dictionary with the following keys: 
@@ -38,22 +35,35 @@ with open('input/20130518_master_bridge_dict.pkl','rb') as f:
     ext_lnSa: median lnSa for the extensive damage state. the dispersion (beta) for the lognormal distribution is 0.6. (See hazus/mceer method)
     com_lnSa: median lnSa for the complete damage state. the dispersion (beta) for the lognormal distribution is 0.6. (See hazus/mceer method)
     '''
-with open('input/20131212_master_transit_dict.pkl','rb') as f:
-  master_transit_dict = pickle.load(f) #the keys go from 1744 to 3152 One per BART structure. The new_id values go from 1744 to 3152 also!!
+with open('input/20140114_master_transit_dict.pkl','rb') as f:
+  master_transit_dict = pickle.load(f) #the keys go from 17440 to 31520 One per BART structure. The new_id values go from 1744 to 3152!!
 # master_transit_dict = {}
 # with open('input/id_mod_ext_com_beta.csv', 'rb') as f:
 #   for line in f:
 #     print line
 #     tokens = string.split(line, ',')
 #     print tokens
-#     master_transit_dict[tokens[0]] = {'mod_lnSa': float(tokens[1])/100.0, 'ext_lnSa': float(tokens[2])/100.0, 'com_lnSa': float(tokens[3])/100.0, 'new_id': int(tokens[0]), 'beta': float(tokens[4])}
-#     print master_transit_dict[tokens[0]]
-# with open ('input/20131212_master_transit_dict.pkl', 'wb') as f:
+#     master_transit_dict[str(int(tokens[0])+10000)] = {'mod_lnSa': float(tokens[1])/100.0, 'ext_lnSa': float(tokens[2])/100.0, 'com_lnSa': float(tokens[3])/100.0, 'new_id': int(tokens[0]), 'beta': float(tokens[4])}
+#     print master_transit_dict[str(int(tokens[0])+10000)]
+# with open ('input/20140114_master_transit_dict.pkl', 'wb') as f:
 #   pickle.dump(master_transit_dict, f)
 
 
 def compute_flow(damaged_graph):
-  return -1
+
+  s= 'sf'
+  t = 'oak'
+  try:
+    flow = nx.max_flow(damaged_graph, s, t, capacity='capacity') #not supported by multigraph
+  except nx.exception.NetworkXError as e:
+    print 'found an ERROR: ', e
+    flow = -1
+    print s in damaged_graph
+    print t in damaged_graph
+    print len(damaged_graph.nodes())
+    print len(damaged_graph.edges())
+    pdb.set_trace()
+  return flow
 
 def compute_shortest_paths(damaged_graph, demand):
   return -1
@@ -69,7 +79,11 @@ def compute_tt_vmt(damaged_graph, demand):
  #       if eattr['flow']>0:
  #         print (n, nbr, eattr['flow'])
   travel_time = util.find_travel_time(damaged_graph) #this should be a little less than 252850.3941hours or **910,261,418.76seconds. **
-  vmt = util.find_vmt(damaged_graph) #in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm) over the course of a day, so divide by 0.053 (see demand note in main). So, that's **8-9 million vehicle-miles**
+  vmt = util.find_vmt(damaged_graph)  
+  ''' in the undamaged case, this should be around 172 million (http://www.mtc.ca.gov/maps_and_data/datamart/stats/vmt.htm) over the course of a day, so divide by 0.053 (see demand note in main). BUT our trip table has only around 11 million trips (instead of the 22 million mentioned here: http://www.mtc.ca.gov/maps_and_data/datamart/stats/baydemo.htmSo, that's **8-9 million vehicle-miles divided by 2, which equals around 4 million vehicle-miles!**
+ 
+
+  '''
   # print travel_time
   # print 'vmt: ', vmt
   return travel_time, vmt
@@ -88,10 +102,13 @@ def make_cube_network_damage(path, list_of_u_v, index):
   text_file.write('endrun \r\n')
   text_file.close()
 
-def make_cube_transit_damage(path, damaged_bridges):
-  '''damages 4 public transit network based on the list of bridges. see the file transit_to_damage.py for more detalls. path is the destination of the damaged transit files'''
-  bridge_list = [int(bridge) for bridge in damaged_bridges] #indices start at 1
-
+def make_cube_transit_damage(path, damaged_bridges_new):
+  '''damages 4 public transit network based on the list of bridges. see the file transit_to_damage.py for more detalls. path is the destination of the damaged transit files. damaged bridges has the new ids (1-1743, 1744-3152'''
+  try:
+    if len(damaged_bridges_new) > 0:
+      b = damaged_bridges_new[0]/10
+  except TypeError:
+    raise('Sorry. You must use the new ids, which are all numbers, not strings')
   #get the data
   set_main_path('/Users/mahalia/ita/trn/transit_lines/', path) #path_to_unmodified, path_to_what_I_will_modify
   bart_dict = make_bart_dict()
@@ -103,31 +120,47 @@ def make_cube_transit_damage(path, damaged_bridges):
   clear_transit_file('Munimetro.tpl') #copies over a clean file
 
   #wreak havoc
-  damage_bart(bridge_list, bart_dict)
-  damage_caltrain(bridge_list)
-  damage_muni(bridge_list, muni_dict) 
-  damage_vta(bridge_list)
+  damage_bart(damaged_bridges_new, bart_dict)
+  damage_caltrain(damaged_bridges_new)
+  damage_muni(damaged_bridges_new, muni_dict) 
+  damage_vta(damaged_bridges_new)
 
-def damage_highway_network(damaged_bridges, G, cube_folder_path, index):
+def damage_highway_network(damaged_bridges_internal, G, cube_folder_path, index):
+  '''damaged bridges is a list of the original ids (1-1889, not the new ids 1-1743!!!!!!!) plus the transit ones (17440-315200)'''
+  try:
+    if len(damaged_bridges_internal) > 0:
+      b = damaged_bridges_internal[0].lower()
+  except AttributeError:
+    raise('Sorry. You must use the original ids, which are strings')
   list_of_u_v = []
-  for site in damaged_bridges:
-    if float(site) <= 1743:
+  counter = 0
+  for site in damaged_bridges_internal:
+    if int(site) <= 1889: #in original ids, not new ones since that is what is in the damaged bridges list
       affected_edges = master_dict[site]['a_b_pairs_direct'] + master_dict[site]['a_b_pairs_indirect']
       list_of_u_v += affected_edges
       for [u,v] in affected_edges:
         G[str(u)][str(v)]['t_a'] = float('inf')
         G[str(u)][str(v)]['capacity'] = 0 
         G[str(u)][str(v)]['distance'] = 20*G[str(u)][str(v)]['distance_0']
-  make_cube_network_damage(cube_folder_path+'modCapacities/', list_of_u_v, index)
+        counter += 1
+  # assert counter >= len(damaged_bridges_internal), 'we should impact an edge per bridge minimum'
+  # make_cube_network_damage(cube_folder_path+'modCapacities/', list_of_u_v, index)
   return G
 
-def damage_transit_network(damaged_bridges, cube_folder_path, index):
-  make_cube_transit_damage(cube_folder_path + 'trn_staging/' + str(index) + '/', damaged_bridges)
+def damage_transit_network(damaged_bridges_new, cube_folder_path, index):
+  '''damaged bridges is a list of the new ids 1-1743!!!!!!!) plus the transit ones (1744-3152)'''
+  try:
+    if len(damaged_bridges_new) > 0:
+      b = damaged_bridges_new[0]/10
+  except TypeError:
+    raise('Sorry. You must use the new ids, which are all numbers, not strings')
+  make_cube_transit_damage(cube_folder_path + 'trn_staging/' + str(index) + '/', damaged_bridges_new)
 
 def ground_motions(numeps, tolerance, ground_motion_filename):
   '''this function reads in some ground motion file where the first four columns have metadata (id, src_id, magnitude, weight)'''
   lnsas = []
   weights = []
+  magnitudes = []
   with open(ground_motion_filename, 'r') as f:
     for line in f:
       split_line = string.split(line, '\t')
@@ -135,72 +168,84 @@ def ground_motions(numeps, tolerance, ground_motion_filename):
       if int(line_weight*1000) >= int(1000*(tolerance/float(numeps))):
         weights.append(line_weight)
         lnsas.append([log(float(string.strip(i))) for i in split_line[4:len(split_line)]])
-  return lnsas, weights
+        magnitudes.append(float(string.strip(split_line[2])))
+  return lnsas, weights, magnitudes
 
 def damage_bridges(scenario):
-  '''This function damages bridges based on the ground shaking values (demand) and the structural capacity (capacity). It returns a list (could be empty) with damaged bridges'''
-  damaged_bridges = []
-  for site in master_dict.keys(): #1-1886 in Matlab indices (start at 1)
-    #after fixing bug
-    lnSa = scenario[master_dict[site]['new_id']-1] #new ids go from 1 to 1743 (Matlab indices (start at 1)). This is truly the natural log (ln) of the spectral acceleration
-    prob = norm.cdf((1/0.6)*(log(exp(lnSa)) - log(master_dict[site]['ext_lnSa'])), 0, 1) #probability between 0 and 1. Above this value is ok. below means bad in the inverse method.
-    val = random()
-    if val < prob: #prob is probability that a real-valued random variable X  will be found at a value less than or equal to x
-      damaged_bridges.append(master_dict[site]['new_id'])#new ids go from 1 to 1743 (Matlab indices (start at 1)).
-      pdb.set_trace()
-    #before fixing bug
-    # lnSa = scenario[master_dict[site]['new_id']-1] #new ids go from 1 to 1743 (Matlab indices (start at 1)). This is truly the natural log (ln) of the spectral acceleration
-    # lnSa_cap = normalvariate(master_dict[site]['ext_lnSa'],0.6) #CHECK THIS. Produces a realization from the normal distribution with mean specified and standard deviation specified
-    # pdb.set_trace()
-    # if float(lnSa) > float(lnSa_cap):#in the extensive damage state as defined by HAZUS
-    #   damaged_bridges.append(site)
-  num_damaged_bridges = len(damaged_bridges)
-  for site in master_transit_dict.keys(): #bridges 1744 to 3152
-    lnSa = scenario[master_transit_dict[site]['new_id']-1]
-    lnSa_cap = normalvariate(master_transit_dict[site]['ext_lnSa'],master_transit_dict[site]['beta'])
-    if float(lnSa) > float(lnSa_cap):#in the extensive damage state as defined by HAZUS
-      damaged_bridges.append(site)
+  '''This function damages bridges based on the ground shaking values (demand) and the structural capacity (capacity). It returns two lists (could be empty) with damaged bridges (same thing, just different bridge numbering'''
+  damaged_bridges_new = []
+  damaged_bridges_internal = []
+  counter = 0
 
-  return damaged_bridges, num_damaged_bridges
+  #first, highway bridges and overpasses
+  beta = 0.6
+  for site in master_dict.keys(): #1-1889 in Matlab indices (start at 1)
+    lnSa = scenario[master_dict[site]['new_id'] - 1]
+    if lnSa > master_dict[site]['ext_lnSa']:
+      counter+=1
+    # print site
+    # print lnSa
+    # print log(master_dict[site]['ext_lnSa'])
+    prob_at_least_ext = norm.cdf((1/float(beta)) * (lnSa - log(master_dict[site]['ext_lnSa'])), 0, 1)
+    U = random.uniform(0, 1)
+    if U <= prob_at_least_ext:
+      damaged_bridges_new.append(master_dict[site]['new_id']) #1-1743
+      damaged_bridges_internal.append(site) #1-1889
+      # print 'U: ', U
+      # print 'cap:  ', master_dict[site]['ext_lnSa']
+      # print 'that should be smaller than the Sa: ', exp(lnSa)
+      # print 'at prob: ', prob_at_least_ext
+  num_damaged_bridges = len(damaged_bridges_new)
 
-def damage_network(damaged_bridges, G, cube_folder_path, index):
-  if len(damaged_bridges) > 0:
-    G = damage_highway_network(damaged_bridges, G, cube_folder_path, index)
-    damage_transit_network(damaged_bridges, cube_folder_path, index)
+  #now on to bart
+  for site in master_transit_dict.keys():
+    lnSa = scenario[master_transit_dict[site]['new_id'] - 1]
+    prob_at_least_ext_t = norm.cdf((1/float(master_transit_dict[site]['beta'])) * (lnSa - log(master_transit_dict[site]['ext_lnSa'])), 0, 1)
+    U = random.uniform(0, 1)
+    if U <= prob_at_least_ext_t:
+      damaged_bridges_new.append(master_transit_dict[site]['new_id'])
+      damaged_bridges_internal.append(site)
+  # pdb.set_trace()
+  # print 'counter says: ', counter
+  return damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges
+
+def damage_network(damaged_bridges_internal, damaged_bridges_new, G, cube_folder_path, index):
+  '''damaged bridges is a list of the original ids (1-1889, not the new ids 1-1743!!!!!!!)'''
+  if len(damaged_bridges_internal) > 0:
+    make_directories([index])
+    G = damage_highway_network(damaged_bridges_internal, G, cube_folder_path, index)
+    # damage_transit_network(damaged_bridges_new, cube_folder_path, index) 
   return G
 
-def measure_performance(damaged_graph, damaged_bridges, demand, no_damage_travel_time, no_damage_vmt):
-  # returns bridges, flow, shortest_paths, travel_time, vmt
+def measure_performance(damaged_graph, num_damaged_bridges, demand, no_damage_travel_time, no_damage_vmt):
+  # returns flow, shortest_paths, travel_time, vmt
   import time
   import pickle
   import pdb
-
-  num_bridges_out = len(damaged_bridges)
-  flow = compute_flow(damaged_graph)
-  if num_bridges_out == 0:
+  
+  if num_damaged_bridges == 0:
+    flow = 18300
     shortest_paths = -1
     travel_time = no_damage_travel_time
     vmt = no_damage_vmt
   else:
+    flow = compute_flow(damaged_graph)
     shortest_paths = compute_shortest_paths(damaged_graph, demand)
     travel_time, vmt = compute_tt_vmt(damaged_graph, demand)
-  # print num_bridges_out, flow, shortest_paths, travel_time, vmt
   return flow, shortest_paths, travel_time, vmt
 
-def test(numeps, lnsas, damaged_bridges, damaged_graph, num_bridges_out, flow, shortest_paths, travel_time, vmt):
+def test_big(numeps, lnsas, damaged_bridges, damaged_graph, num_bridges_out, flow, shortest_paths, travel_time, vmt):
+  assert len(lnsas)==numeps*3909, 'number of scenarios should equal numeps * 3909'
+  assert len(damaged_bridges)>=0, 'number of scenarios should equal numeps * 3909'
+  assert (len(damaged_graph.edges())==24404) and (len(damaged_graph.nodes())==9635), 'graph should have 9635 nodes and 24404 edges '
+  assert (num_bridges_out>=0) and (flow>=0) and (shortest_paths>=0) and (travel_time>=0) and (vmt>=0), 'we should have non-negative performance measures: '
 
-  print 'number of scenarios should equal numeps * 3909', (len(lnsas)==numeps*3909)
-
-  print 'damaged bridges should be a list: ', len(damaged_bridges)>=0
-
-  print 'graph should have 9635 nodes and 24404 edges: ', (len(damaged_graph.edges())==24404) and (len(damaged_graph.nodes())==9635)
-
-  print 'we should have non-negative performance measures: ', (num_bridges_out>=0) and (flow>=0) and (shortest_paths>=0) and (travel_time>=0) and (vmt>=0)
-
-def save_results(bridge_array, travel_index_times, numeps):
-    util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path_tt_vmt_bridges' + str(numeps) + 'eps_extensive.txt',travel_index_times)
-    with open (time.strftime("%Y%m%d")+'_' + str(numeps) + 'eps_damagedBridges.pkl', 'wb') as f:
-      pickle.dump(bridge_array, f)
+def save_results(bridge_array_internal, bridge_array_new, travel_index_times, numeps):
+    util.write_2dlist(time.strftime("%Y%m%d")+'_bridges_flow_path_tt_vmt_bridges' + str(numeps) + 'eps_extensive2.txt',travel_index_times)
+    with open (time.strftime("%Y%m%d")+'_' + str(numeps) + 'eps_damagedBridgesInternal2.pkl', 'wb') as f:
+      pickle.dump(bridge_array_internal, f)
+    with open (time.strftime("%Y%m%d")+'_' + str(numeps) + 'eps_damagedBridgesNewID2.pkl', 'wb') as f:
+      pickle.dump(bridge_array_new, f)
 
 def compute_performance(scenario, G, index, demand, no_damage_travel_time, no_damage_vmt):
   import time
@@ -211,27 +256,82 @@ def compute_performance(scenario, G, index, demand, no_damage_travel_time, no_da
   from travel_main_simple_simplev3 import damage_bridges
   from travel_main_simple_simplev3 import measure_performance
   from travel_main_simple_simplev3 import damage_network
+  from travel_main_simple_simplev3 import get_graph
   start_time = time.time()
 
-  G = networkx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle")
+  if G == None:
+    G = get_graph()
+
   #figure out bridge damage for each scenario
-  damaged_bridges, num_bridges_out = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
+  damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
 
   # #figure out network damage and output Cube files to this effect
-  G = damage_network(damaged_bridges, G, time.strftime("%Y%m%d")+'_filesForCube/', index)
+  G = damage_network(damaged_bridges_internal, damaged_bridges_new, G, time.strftime("%Y%m%d")+'_filesForCube/', index)
 
   # #figure out impact (performance metrics)
-  flow, shortest_paths, travel_time, vmt = measure_performance(G, damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
+  flow, shortest_paths, travel_time, vmt = measure_performance(G, num_damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
   G = util.clean_up_graph(G)
   print 'total scenario time: ', time.time() - start_time
-  return damaged_bridges, num_bridges_out, flow, shortest_paths, travel_time, vmt
-  # return num_bridges_out
+  return damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges, flow, shortest_paths, travel_time, vmt
 
-def compute_performance_test(scenario):
-  return 10
+def make_directories(scenario_indices):
+  #make directories for these scenarios
+  #input (transit). In one transit (trn) folder, I'll have a bunch of folders for different scenarios and then I can just copy over the three relevant files before each simulation (transit_lines.block, bart.tpl, muni.tpl)
+  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/'):
+    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/')  
 
-def compute_performance_test2():
-  return 5
+  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/trn_staging/'):
+    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/trn_staging/')  
+
+  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/modCapacities/'):
+    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/modCapacities/')
+
+  #output
+  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/aa_new/'):
+    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/aa_new/')
+
+  for scenario in scenario_indices:
+    #still input
+    if not os.path.isdir(time.strftime("%Y%m%d") + '_filesForCube/trn_staging/' + str(scenario) + '/'):
+        os.mkdir(time.strftime("%Y%m%d") + '_filesForCube/trn_staging/' + str(scenario) + '/')
+
+    #output
+    if not os.path.isdir(time.strftime("%Y%m%d") + '_filesForCube/aa_new/' + str(scenario) + '/'):
+        os.mkdir(time.strftime("%Y%m%d") + '_filesForCube/aa_new/' + str(scenario) + '/')
+
+def add_superdistrict_centroids(G):
+  '''adds 34 dummy nodes for superdistricts'''
+  sd_table = util.read_2dlist('input/superdistricts_clean.csv', ',', False)
+  for row in sd_table:
+    i = int(row[0])
+    G.add_node(str(1000000 + i))
+    G.add_edge(str(1000000 + i), str(row[1]), capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+    G.add_edge(str(1000000 + i), str(row[2]), capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+    G.add_edge(str(row[3]), str(1000000 + i), capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+    G.add_edge(str(row[4]), str(1000000 + i), capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+
+  #add a sf dummy node and an oakland dummy node for max flow
+  G.add_node('sf')
+  G.add_node('oak')
+  G.add_edge('sf', '1000001', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('sf', '1000002', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('sf', '1000003', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('sf', '1000004', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('sf', '1000005', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('1000018', 'oak', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('1000019', 'oak', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+  G.add_edge('1000020', 'oak', capacity_0 = 100000,  capacity = 100000, lanes =1 , bridges=[], distance_0=1, distance = 1, t_a=1, t_0=1, flow=0, dailyvolume=1) #capacity in vehicles over all lanes, travel time in seconds, length in miles, flow in 
+
+  return G
+
+def get_graph():
+  import networkx
+  '''loads full mtc highway graph with dummy links and then adds a few fake centroidal nodes for max flow and traffic assignment'''
+  G = networkx.read_gpickle("input/graphMTC_CentroidsLength3int.gpickle")
+  G = add_superdistrict_centroids(G)
+   # Directed! only one edge between nodes
+  G = nx.freeze(G) #prevents edges or nodes to be added or deleted
+  return G
 
 def main():
   '''can change the number of epsilons below'''
@@ -240,105 +340,130 @@ def main():
   number_of_highway_bridges = 1743
   numeps = 3 #the number of epsilons
   tol = 0.00001 #the minimum annual rate that you care about in the original event set (the weight now is the original annual rate / number of epsilons per event)
-  demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids.csv') #we just take a percentage in ita.py, namely  #to get morning flows, take 5.3% of daily driver values. 11.5/(4.5*6+11.5*10+14*4+4.5*4) from Figure S10 of http://www.nature.com/srep/2012/121220/srep01001/extref/srep01001-s1.pdf
+  demand = bd.build_demand('input/BATS2000_34SuperD_TripTableData.csv', 'input/superdistricts_centroids_dummies.csv') #we just take a percentage in ita.py, namely  #to get morning flows, take 5.3% of daily driver values. 11.5/(4.5*6+11.5*10+14*4+4.5*4) from Figure S10 of http://www.nature.com/srep/2012/121220/srep01001/extref/srep01001-s1.pdf
   #figure out ground motions
   # lnsas, weights = ground_motions(numeps, tol, 'input/SF2_mtc_total_3909scenarios_1743bridgesPlusBART_1epsFake.txt')
-  lnsas, weights = ground_motions(numeps, tol, 'input/SF2_mtc_total_3909scenarios_1743bridgesPlusBART_3eps.txt')
-
+  lnsas, weights, magnitudes = ground_motions(numeps, tol, 'input/SF2_mtc_total_3909scenarios_1743bridgesPlusBART_3eps.txt')
+  # with open ('input/20140114_lnsas_1epsFake.pkl', 'wb') as f:
+  #   pickle.dump(lnsas, f)
+  with open ('input/20140114_magnitudes_3eps.pkl', 'wb') as f:
+    pickle.dump(magnitudes, f)
+  with open('input/20140114_lnsas_3eps.pkl','rb') as f:
+    lnsas = pickle.load(f)
+  # with open('input/20140114_lnsas_1epsFake.pkl','rb') as f:
+  #   lnsas = pickle.load(f)
+  print 'the number of ground motion events we are considering: ', len(lnsas)
   print 'first length: ', len(lnsas[0])
 
   bart_dict = transit_to_damage.make_bart_dict()
   muni_dict = transit_to_damage.make_muni_dict()
-  transit_to_damage.set_main_path('input/trn/transit_lines/', 'input/trncopy/transit_lines/') #TODO: need to change THREE file paths (these plus bart)
 
-  print 'the number of ground motion events we are considering: ', len(lnsas)
-  index = 0
-  bridge_array = []
+  bridge_array_new = []
+  bridge_array_internal = []
   travel_index_times = []
-
   # G = nx.read_gpickle("input/graphMTC_noCentroidsLength15.gpickle")
-  G = nx.read_gpickle("input/graphMTC_CentroidsLength6.gpickle")
-   # Directed! only one edge between nodes
-  G = nx.freeze(G) #prevents edges or nodes to be added or deleted
-  print 'am I a multi graph? ', G.is_multigraph()
+  G = get_graph()
+
+  print 'am I a multi graph? I really do not want to be!', G.is_multigraph() #An undirected graph class that can store multiedges. Multiedges are multiple edges between two nodes. Each edge can hold optional data or attributes.A MultiGraph holds undirected edges. Self loops are allowed.
   no_damage_travel_time, no_damage_vmt = compute_tt_vmt(G, demand)
-  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/'):
-    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/')
-  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/transit/'):
-    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/transit/')
-  if not os.path.isdir(time.strftime("%Y%m%d")+'_filesForCube/modCapacities/'):
-    os.mkdir(time.strftime("%Y%m%d")+'_filesForCube/modCapacities/')
-
-
+  G = util.clean_up_graph(G)
+  # make_directories(range(len(lnsas)))
+  # transit_to_damage.set_main_path('input/trn/transit_lines/', 'input/trncopy/transit_lines/') #TODO: need to change THREE file paths (these plus bart)
 
   # run in SERIES
-  # #---------------------------------------------
-  # print 'computing features in series ...'
-  # start_time = time.time()
-  # for i in range(len(eqid_list)):
-  #     (result, lon_temp, lat_temp) = getAllTweetFeatures(eqid_list[i], {eqid_list[i]: tweets[eqid_list[i]]}, radius)
-  #     tweetFeatures = np.vstack([x for x in [tweetFeatures, result] if x.size>0])
-  #     lon_meta = np.hstack([x for x in [lon_meta, lon_temp] if x.size>0])
-  #     lat_meta = np.hstack([x for x in [lat_meta, lat_temp] if x.size>0])
-  #     eqid_temp = np.array([eqid_list[i] for j in range(len(lon_temp))])
-  #     eqid_meta = np.hstack([x for x in [eqid_meta, eqid_temp] if x.size>0])
+  #---------------------------------------------
+  # targets = [0, 5000]
+  # # targets = range(len(lnsas))
+  # for i in targets:
+  #   print i
+  #   start = time.time()
+  #   damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges, flow, shortest_paths, travel_time, vmt = compute_performance(lnsas[i], G, i, demand, no_damage_travel_time, no_damage_vmt)
+  #   bridge_array_internal.append(damaged_bridges_internal)
+  #   bridge_array_new.append(damaged_bridges_new)
+  #   travel_index_times.append((i, num_damaged_bridges, flow, shortest_paths, travel_time, vmt, num_damaged_bridges/float(number_of_highway_bridges), magnitudes[i]))
+  #   print 'time for one: ', time.time() - start
+  #   if i%3909 == 0:
+      # save_results(bridge_array_internal, bridge_array_new, travel_index_times, int((i + 1)/float(3909)))
+  
+  #   # scenario = lnsas[i]
+  #   # #figure out bridge damage for each scenario
+  #   # damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
+  #   # bridge_array_internal.append(damaged_bridges_internal)
+  #   # bridge_array_new.append(damaged_bridges_new)
 
-  for scenario in lnsas:
-    print index
-    #figure out bridge damage for each scenario
-    damaged_bridges, num_bridges_out = damage_bridges(scenario) #e.g., [1, 89, 598] #num_bridges_out is highway bridges only
-    bridge_array.append(damaged_bridges)
+  #   # #figure out network damage and output Cube files to this effect
+  #   # G = damage_network(damaged_bridges_internal, damaged_bridges_new, G, time.strftime("%Y%m%d")+'_filesForCube/', i)
 
-    #figure out network damage and output Cube files to this effect
-    G = damage_network(damaged_bridges, G, time.strftime("%Y%m%d")+'_filesForCube/', index)
+  #   # #figure out impact (performance metrics)
+  #   # flow, shortest_paths, travel_time, vmt = measure_performance(G, num_damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
+  #   # travel_index_times.append((i, num_damaged_bridges, flow, shortest_paths, travel_time, vmt, num_damaged_bridges/float(number_of_highway_bridges), magnitudes[i]))
+  #   # G = util.clean_up_graph(G)
+  #   # # if i%3909 == 0:
+  #   # if i%1 == 0:
+  #   #   save_results(bridge_array_internal, bridge_array_new, travel_index_times, int(i/float(3909)))
 
-    #figure out impact (performance metrics)
-    flow, shortest_paths, travel_time, vmt = measure_performance(G, damaged_bridges, demand, no_damage_travel_time, no_damage_vmt)
-    travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
-    G = util.clean_up_graph(G)
-    index +=1
+  # # #---------------------------------------------
 
-  # if index%3909 == 0:
-  if index%100 == 0:
-    save_results(bridge_array, travel_index_times, int(index/float(3909)))
-
-  # #---------------------------------------------
-
-  # # run in PARALLEL
-  # #---------------------------------------------
-  # ppservers = ()    
-  # # Creates jobserver with automatically detected number of workers
-  # job_server = pp.Server(ppservers=ppservers)
-  # print "Starting pp with", job_server.get_ncpus(), "workers"
-  # # compute all Tweet features in parallel
-  # print 'computing features ...'
-  # start_time = time.time()
-  # # set up jobs
-  # jobs = []
+  # # # run in PARALLEL
+  # # # #---------------------------------------------
+  ppservers = ()    
+  # Creates jobserver with automatically detected number of workers
+  job_server = pp.Server(ppservers=ppservers)
+  print "Starting pp with", job_server.get_ncpus(), "workers"
+  start_time = time.time()
+  # set up jobs
+  jobs = []
+  targets = range(3909, len(lnsas)) #len(lnsas)) 7818, 
+  # targets = [0, 33, 5000]
   # for i in range(len(lnsas)):
-  #   jobs.append(job_server.submit(compute_performance, (lnsas[i], 0, index, demand, no_damage_travel_time, no_damage_vmt, ), modules = ('networkx', ))) # functions, modules
-  #   # jobs.append(job_server.submit(compute_performance_test, (lnsas[i]))) # functions, modules
-  #   # jobs.append(job_server.submit(compute_performance_test, (lnsas[i], )))
-  # # get results
+  for i in targets:
+    jobs.append(job_server.submit(compute_performance, (lnsas[i], None, i, demand, no_damage_travel_time, no_damage_vmt, ), modules = ('networkx', ))) # functions, modules
+  # get results
   # if len(jobs) != len(lnsas):
   #   pdb.set_trace() # error checking!
-  # index = 0
-  # for job in jobs:
-  #   (damaged_bridges, num_bridges_out, flow, shortest_paths, travel_time, vmt) = job()
-  #   # vmt = job()
-  #   bridge_array.append(damaged_bridges)
-  #   travel_index_times.append((index, num_bridges_out, flow, shortest_paths, travel_time, vmt, num_bridges_out/float(number_of_highway_bridges)))
-  #   if index%3909 == 0:
-  #     save_results(bridge_array, travel_index_times, int(index/float(3909)))
-  #   index += 1
+  index = 0
+  for job in jobs:
+    (damaged_bridges_internal, damaged_bridges_new, num_damaged_bridges, flow, shortest_paths, travel_time, vmt) = job()
+    i = targets[index]
+    print 'target id: ', i
+    bridge_array_internal.append(damaged_bridges_internal)
+    bridge_array_new.append(damaged_bridges_new)
+    travel_index_times.append((i, num_damaged_bridges, flow, shortest_paths, travel_time, vmt, num_damaged_bridges/float(number_of_highway_bridges), magnitudes[i]))
+    if i%3909 == 0:
+      save_results(bridge_array_internal, bridge_array_new, travel_index_times, int((i + 1)/float(3909)))
+    index += 1
 
   # #---------------------------------------------
-  save_results(bridge_array, travel_index_times, int(index/float(3909)))
+  save_results(bridge_array_internal, bridge_array_new, travel_index_times, int((i + 1)/float(3909)))
   
-  # test(numeps, lnsas, damaged_bridges, damaged_graph, num_bridges_out, flow, shortest_paths, travel_time, vmt)
-  #save it all
+  # test_big(numeps, lnsas, damaged_bridges_internal, damaged_graph, num_damaged_bridges, flow, shortest_paths, travel_time, vmt)
 
+def test():
+  scenario = [log(1.2), log(10), log(0.01), log(1)]
 
+  global master_transit_dict
+  global master_dict
+  master_dict = {}
+  master_transit_dict = {}
+  master_dict['1'] = {'new_id': 1, 'ext_lnSa': 0.8}
+  master_dict['12'] = {'new_id': 2, 'ext_lnSa': 0.8}
+  master_dict['13'] = {'new_id': 3, 'ext_lnSa': 0.8}
+  master_transit_dict['13'] = {'new_id': 4, 'beta': 1, 'ext_lnSa': 1.6}
 
+  for thing in range(50):
+    br_int, br, num = damage_bridges(scenario)
+    print 'bridges out in terms of new ids: ', br
+    assert len(br) >= 1, 'at least one bridge should fail'
+    assert len(br) <= 3, 'no more than 3 bridges fail'
+  print 'now let us try to test if we change the capacity, it fails'
+  master_dict['13']['ext_lnSa'] = 0.001
+  br_int, br, num = damage_bridges(scenario)
+  assert 3 in br, 'now that bridge new id 3 has almost no structural demand capacity, it should fail'
+  G = nx.read_gpickle("input/graphMTC_CentroidsLength6int.gpickle")
+  num_nodes = len(G.nodes())
+  G = add_superdistrict_centroids(G)
+  assert len(G.nodes()) == 34 + 2 + num_nodes, 'nodes should have changed'
+  print compute_flow(G)
+  # test_big(numeps, lnsas, damaged_bridges, damaged_graph, num_bridges_out, flow, shortest_paths, travel_time, vmt)
 if __name__ == '__main__':
   main()

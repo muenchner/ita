@@ -8,7 +8,7 @@ This file provides some utilities for figuring out which transit parts to damage
 import string
 import shutil
 
-'''list out all the bridge IDs of structures that impact the respective transit authorities. The main IDS go 1-1743 (matlab indices) and then 1744-3152 are bonus bart-specific aerial structures'''
+'''list out all the bridge IDs of structures that impact the respective transit authorities. These are the new ids (1-1743)!!!! Not Jessica IDS or the old ones'''
 VTA = [230, 270, 481, 261, 206, 48, 176, 237, 243, 325, 277, 85, 170, 178, 168, 87, 167, 163, 155, 145, 118, 117, 103, 119, 159, 262, 135, 200, 113]
 MUNI = [964, 903, 864, 837, 939, 867, 873]
 BART = range(1744, 3153)
@@ -122,7 +122,7 @@ def damage_muni(damaged_bridge_list, muni_dict):
 def damage_bart(damaged_bridge_list, bart_dict):
 	'''this file damages the input files to the Cube model according to which BART structures are damaged. This is on a line by line basis.'''
 	problem_cases = set(damaged_bridge_list) & set(BART) 
-	print problem_cases
+	print 'problem cases: ', problem_cases
 	for bridge in list(problem_cases):
 		affected_line_list = bart_dict[str(bridge)]
 		print [k for k in affected_line_list.keys() if affected_line_list[k] ==1]
@@ -231,7 +231,7 @@ def damage_caltrain(damaged_bridge_list):
 def make_bart_dict():
 	bart_dict = {}
 	counter = 0
-	with open('bart_bridge_to_line.csv', 'rb') as f:
+	with open('bart_bridge_to_line.csv', 'rb') as f: #1744 to 3152
 
 		for line in f:
 			if counter > 1:
